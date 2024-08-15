@@ -1,0 +1,23 @@
+{
+    "name": "kikwik/page-bundle",
+    "description": "Manage pages for symfony 6.4+",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.1",
+        "symfony/framework-bundle": "^6.4|^7.0",
+        "doctrine/orm": "^2.14 || ^3.0",
+        "doctrine/doctrine-bundle": "^2.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kikwik\\PageBundle\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Klaus",
+            "email": "support@kikwik.it"
+        }
+    ]
+}
