@@ -5,6 +5,36 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
 
+        <service
+                id="kikwik_page.repository.page_repository"
+                class="Kikwik\PageBundle\Repository\PageRepository"
+                public="true"
+                autowire="true"
+                autoconfigure="true"
+        >
+            <tag name="doctrine.repository_service" />
+            <argument type="service" id="doctrine"/>
+        </service>
+        <service
+                id="Kikwik\PageBundle\Repository\PageRepository"
+                alias="kikwik_page.repository.page_repository"
+        />
+
+
+        <service
+                id="kikwik_page.repository.page_translation_repository"
+                class="Kikwik\PageBundle\Repository\PageTranslationRepository"
+                public="true"
+                autowire="true"
+                autoconfigure="true"
+        >
+            <tag name="doctrine.repository_service" />
+            <argument type="service" id="doctrine"/>
+        </service>
+        <service
+                id="Kikwik\PageBundle\Repository\PageTranslationRepository"
+                alias="kikwik_page.repository.page_translation_repository"
+        />
 
     </services>
 </container>
