@@ -5,36 +5,59 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
 
+        <!-- Kikwik\PageBundle\Repository\PageRepository -->
         <service
                 id="kikwik_page.repository.page_repository"
                 class="Kikwik\PageBundle\Repository\PageRepository"
-                public="true"
-                autowire="true"
-                autoconfigure="true"
         >
-            <tag name="doctrine.repository_service" />
             <argument type="service" id="doctrine"/>
+            <tag name="doctrine.repository_service" />
         </service>
         <service
                 id="Kikwik\PageBundle\Repository\PageRepository"
                 alias="kikwik_page.repository.page_repository"
+                public="true"
         />
 
 
+        <!-- Kikwik\PageBundle\Repository\PageTranslationRepository -->
         <service
                 id="kikwik_page.repository.page_translation_repository"
                 class="Kikwik\PageBundle\Repository\PageTranslationRepository"
-                public="true"
-                autowire="true"
-                autoconfigure="true"
         >
-            <tag name="doctrine.repository_service" />
             <argument type="service" id="doctrine"/>
+            <tag name="doctrine.repository_service" />
         </service>
         <service
                 id="Kikwik\PageBundle\Repository\PageTranslationRepository"
                 alias="kikwik_page.repository.page_translation_repository"
+                public="true"
         />
+
+
+        <!-- Kikwik\PageBundle\Controller\PageController -->
+        <service
+                id="kikwik_page.controller.page_controller"
+                class="Kikwik\PageBundle\Controller\PageController"
+        >
+            <argument type="service" id="twig"/>
+            <tag name="controller.service_arguments"/>
+        </service>
+        <service
+                id="Kikwik\PageBundle\Controller\PageController"
+                alias="kikwik_page.controller.page_controller"
+                public="true"
+        />
+
+
+        <!-- Kikwik\PageBundle\Routing\PageTranslationRouteProvider -->
+        <service
+                id="kikwik_page.routing.page_translation_route_provider"
+                class="Kikwik\PageBundle\Routing\PageTranslationRouteProvider"
+        >
+            <argument type="service" id="doctrine"/>
+            <tag name="routing.route_provider"/>
+        </service>
 
     </services>
 </container>

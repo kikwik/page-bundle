@@ -12,8 +12,9 @@ use Gedmo\Sluggable\Handler\TreeSlugHandler;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Kikwik\PageBundle\Repository\PageTranslationRepository;
 
-#[ORM\Entity(repositoryClass: PageTranslationRepository::class)]
+#[ORM\Entity()]
 #[Table(name: 'kw_page__page_translation')]
+#[ORM\HasLifecycleCallbacks]
 class PageTranslation
 {
     use TimestampableEntity;
@@ -54,7 +55,15 @@ class PageTranslation
     /**************************************/
     /* CUSTOM METHODS                     */
     /**************************************/
-
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function updateSlug()
+    {
+        // Se la pagina è root, forza lo slug a essere uguale al locale
+        if ($this->parent === null) {
+            $this->slug = $this->locale;
+        }
+    }
 
     /**************************************/
     /* GETTERS & SETTERS                  */
