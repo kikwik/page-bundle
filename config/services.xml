@@ -39,6 +39,8 @@
         <service id="kikwik_page.controller.admin_controller" class="Kikwik\PageBundle\Controller\AdminController">
             <tag name="controller.service_arguments"/>
             <argument type="service" id="twig"/>
+            <argument type="service" id="cmf_routing.router"/>
+            <argument type="service" id="doctrine"/>
             <argument type="service" id="kikwik_page.repository.page_repository"/>
         </service>
 

@@ -12,6 +12,15 @@ Manage pages for symfony 6.4+
 composer require kikwik/page-bundle
 ```
 
+2. Define the `enabled_locales` in `config/packages/translation.yaml`
+
+```yaml
+framework:
+  default_locale: it
+  enabled_locales: ['it','en','de','fr']
+```
+
+
 ### Page admin ###
 
 To activate the page admin feature add routes in `config/routes/kikwik_pages.yaml`:
