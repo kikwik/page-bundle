@@ -15,7 +15,7 @@
             id="kikwik_page_admin_create"
             path="/{_locale}/create/{parentId?}"
             controller="kikwik_page.controller.admin_controller::create"
-            methods="GET"
+            methods="GET,POST"
     >
         <requirement key="parentId">\d*</requirement>
     </route>
@@ -24,7 +24,7 @@
             id="kikwik_page_admin_edit"
             path="/{_locale}/edit/{id}"
             controller="kikwik_page.controller.admin_controller::edit"
-            methods="GET"
+            methods="GET,POST"
     />
 
 </routes>

@@ -40,7 +40,8 @@
                             {% endif %}
                         </td>
                         <td>
-                            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_create',{parentId: page.id}) }}">+</a>
+                            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_create',{parentId: page.id}) }}"><i class="bi bi-plus"></i></a>
+                            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_edit',{id: page.id}) }}"><i class="bi bi-pencil"></i></a>
                         </td>
                     </tr>
 
