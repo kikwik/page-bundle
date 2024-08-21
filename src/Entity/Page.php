@@ -11,11 +11,10 @@ use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\IpTraceable\Traits\IpTraceableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Kikwik\PageBundle\Repository\PageRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: PageRepository::class)]
+#[ORM\Entity()]
 #[Table(name: 'kw_page__page')]
 #[UniqueEntity(fields: ['name'])]
 #[Gedmo\Tree(type: 'nested')]

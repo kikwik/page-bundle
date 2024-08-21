@@ -25,7 +25,6 @@
                 id="kikwik_page.repository.page_translation_repository"
                 class="Kikwik\PageBundle\Repository\PageTranslationRepository"
         >
-            <argument type="service" id="doctrine"/>
             <tag name="doctrine.repository_service" />
         </service>
         <service

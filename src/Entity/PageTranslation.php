@@ -10,7 +10,6 @@ use Gedmo\IpTraceable\Traits\IpTraceableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Sluggable\Handler\TreeSlugHandler;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Kikwik\PageBundle\Repository\PageTranslationRepository;
 
 #[ORM\Entity()]
 #[Table(name: 'kw_page__page_translation')]
