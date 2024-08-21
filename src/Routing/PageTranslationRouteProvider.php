@@ -32,7 +32,7 @@ class PageTranslationRouteProvider implements RouteProviderInterface
 
         if ($pageTranslation) {
             $route = new Route($pageTranslation->getSlug(), [
-                '_controller' => 'Kikwik\PageBundle\Controller\PageController::show', // Adjust the controller path as necessary
+                '_controller' => 'kikwik_page.controller.page_controller::show',
                 'pageTranslation' => $pageTranslation
             ]);
 
@@ -52,7 +52,7 @@ class PageTranslationRouteProvider implements RouteProviderInterface
         }
 
         return new Route($pageTranslation->getSlug(), [
-            '_controller' => 'Kikwik\PageBundle\Controller\PageController::show',
+            '_controller' => 'kikwik_page.controller.page_controller::show',
             'pageTranslation' => $pageTranslation
         ]);
     }

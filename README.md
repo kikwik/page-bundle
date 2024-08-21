@@ -12,6 +12,16 @@ Manage pages for symfony 6.4+
 composer require kikwik/page-bundle
 ```
 
+### Page admin ###
+
+To activate the page admin feature add routes in `config/routes/kikwik_pages.yaml`:
+
+```yaml
+kikwik_page_bundle_admin:
+    resource: '@KikwikPageBundle/config/routes.xml'
+    prefix: '/admin/page'
+```
+
 ## Usage
 
 
