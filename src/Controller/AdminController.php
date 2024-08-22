@@ -92,7 +92,7 @@ class AdminController
             $this->doctrine->getManager()->persist($page);
             $this->doctrine->getManager()->flush();
             $this->addFlash('success', 'La pagina è stata creata.');
-            return $this->redirectToRoute('kikwik_page_admin_list');
+            return $this->redirectToRoute('kikwik_page_admin_update', ['id' => $page->getId()]);
         }
 
         return $this->render('@KikwikPage/admin/create.html.twig', [
@@ -122,6 +122,7 @@ class AdminController
             return $this->render('@KikwikPage/admin/update.html.twig', [
                 'form' => $form->createView(),
                 'page'=>$page,
+                'enabledLocales' => $this->enabledLocales,
             ]);
         }
 

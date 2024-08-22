@@ -2,6 +2,8 @@
 
 namespace Kikwik\PageBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Table;
@@ -59,9 +61,23 @@ class PageTranslation
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected ?pageTranslation $parent = null;
 
+    /**
+     * @var Collection<int, Block>
+     */
+    #[ORM\OneToMany(targetEntity: Block::class, mappedBy: 'pageTranslation', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
+    #[Assert\Valid]
+    protected Collection $blocks;
+
     /**************************************/
     /* CUSTOM METHODS                     */
     /**************************************/
+
+    public function __construct()
+    {
+        $this->blocks = new ArrayCollection();
+    }
+
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function updateSlug()
@@ -156,6 +172,35 @@ class PageTranslation
     public function setParent(?PageTranslation $parent): static
     {
         $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Block>
+     */
+    public function getBlocks(): Collection
+    {
+        return $this->blocks;
+    }
+
+    public function addBlock(Block $block): self
+    {
+        if (!$this->blocks->contains($block)) {
+            $this->blocks[] = $block;
+            $block->setPageTranslation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlock(Block $block): self
+    {
+        if ($this->blocks->removeElement($block)) {
+            if ($block->getPageTranslation() === $this) {
+                $block->setPageTranslation(null);
+            }
+        }
 
         return $this;
     }

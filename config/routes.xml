@@ -27,13 +27,17 @@
             path="/{_locale}/update/{id}"
             controller="kikwik_page.controller.admin_controller::update"
             methods="GET,POST"
-    />
+    >
+        <requirement key="id">\d*</requirement>
+    </route>
 
     <route
             id="kikwik_page_admin_delete"
             path="/{_locale}/delete/{id}"
             controller="kikwik_page.controller.admin_controller::delete"
             methods="GET,POST"
-    />
+    >
+        <requirement key="id">\d*</requirement>
+    </route>
 
 </routes>
