@@ -40,8 +40,9 @@
                             {% endif %}
                         </td>
                         <td>
-                            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_create',{parentId: page.id}) }}"><i class="bi bi-plus"></i></a>
-                            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_edit',{id: page.id}) }}"><i class="bi bi-pencil"></i></a>
+                            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_create',{parentId: page.id}) }}" title="Aggiungi pagina figlia"><i class="bi bi-plus"></i></a>
+                            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_update',{id: page.id}) }}" title="Modifica pagina"><i class="bi bi-pencil"></i></a>
+                            <a class="btn btn-sm btn-outline-danger" href="{{ path('kikwik_page_admin_delete',{id: page.id}) }}" title="Elimina pagina"><i class="bi bi-trash"></i></a>
                         </td>
                     </tr>
 

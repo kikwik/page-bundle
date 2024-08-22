@@ -44,6 +44,7 @@
             <argument type="service" id="kikwik_page.repository.page_repository"/>
             <argument type="service" id="form.factory"/>
             <argument type="service" id="request_stack"/>
+            <argument type="service" id="security.authorization_checker"/>
         </service>
 
     </services>

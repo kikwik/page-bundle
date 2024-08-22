@@ -13,7 +13,9 @@ class PageTranslationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class)
+            ->add('title')
+            ->add('description')
+            ->add('isEnabled')
         ;
     }
 

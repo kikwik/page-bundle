@@ -16,7 +16,7 @@ class PageFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, ['label' => 'Name'])
+            ->add('name')
             ->add('translations', CollectionType::class, [
                 'entry_type' => PageTranslationFormType::class,
             ])

@@ -1,2 +1,9 @@
-ciao sono la pagina che visualizza la pagina:
-{{ dump(page) }}
+{% extends '@KikwikPage/page/layout.html.twig' %}
+
+{% block pageTitle %}{{ pageTranslation.title }}{% endblock %}
+
+{% block pageDescription %}{{ pageTranslation.description }}{% endblock %}
+
+{% block pageContent %}
+    {{ dump(pageTranslation) }}
+{% endblock %}

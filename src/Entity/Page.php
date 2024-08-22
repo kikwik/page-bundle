@@ -33,7 +33,7 @@ class Page
     #[ORM\Column]
     protected ?int $id = null;
 
-    #[ORM\Column(type: Types::TEXT, length: 255, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     #[Assert\NotBlank()]
     protected ?string $name = null;
 
@@ -67,6 +67,7 @@ class Page
      * @var Collection<int, PageTranslation>
      */
     #[ORM\OneToMany(targetEntity: PageTranslation::class, mappedBy: 'page', cascade: ['persist'], orphanRemoval: true)]
+    #[Assert\Valid]
     protected Collection $translations;
 
     /**************************************/

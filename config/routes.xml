@@ -9,7 +9,9 @@
             path="/{_locale}"
             controller="kikwik_page.controller.admin_controller::list"
             methods="GET"
-    />
+    >
+        <default key="_locale">%kernel.default_locale%</default>
+    </route>
 
     <route
             id="kikwik_page_admin_create"
@@ -21,9 +23,16 @@
     </route>
 
     <route
-            id="kikwik_page_admin_edit"
-            path="/{_locale}/edit/{id}"
-            controller="kikwik_page.controller.admin_controller::edit"
+            id="kikwik_page_admin_update"
+            path="/{_locale}/update/{id}"
+            controller="kikwik_page.controller.admin_controller::update"
+            methods="GET,POST"
+    />
+
+    <route
+            id="kikwik_page_admin_delete"
+            path="/{_locale}/delete/{id}"
+            controller="kikwik_page.controller.admin_controller::delete"
             methods="GET,POST"
     />
 

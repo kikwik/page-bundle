@@ -21,6 +21,15 @@ framework:
 ```
 
 
+3. Optionally configure options in `config/packages/kikwik_page.yaml`
+
+```yaml
+kikwik_page:
+  admin_role: 'ROLE_ADMIN_PAGE'   # set to empty string to disable permission checker
+  default_locale: '%kernel.default_locale%'
+  enabled_locales: '%kernel.enabled_locales%'
+```
+
 ### Page admin ###
 
 To activate the page admin feature add routes in `config/routes/kikwik_pages.yaml`:

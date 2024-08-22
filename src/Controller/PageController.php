@@ -18,7 +18,7 @@ class PageController
     public function show(Request $request, PageTranslation $pageTranslation): Response
     {
         return new Response($this->twig->render('@KikwikPage/page/show.html.twig', [
-            'page' => $pageTranslation,
+            'pageTranslation' => $pageTranslation,
         ]));
     }
 

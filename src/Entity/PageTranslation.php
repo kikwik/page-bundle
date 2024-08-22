@@ -10,6 +10,7 @@ use Gedmo\IpTraceable\Traits\IpTraceableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Sluggable\Handler\TreeSlugHandler;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity()]
 #[Table(name: 'kw_page__page_translation')]
@@ -33,11 +34,18 @@ class PageTranslation
     #[ORM\JoinColumn(nullable: false)]
     protected ?Page $page = null;
 
-    #[ORM\Column(type: Types::TEXT, length: 5, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 5, nullable: false)]
     protected ?string $locale = null;
 
-    #[ORM\Column(type: Types::TEXT, length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[Assert\NotBlank()]
     protected ?string $title = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    protected ?string $description = null;
+
+    #[ORM\Column(type: Types::BOOLEAN, nullable: false)]
+    protected bool $isEnabled = true;
 
     #[ORM\Column(length: 128, unique: true)]
     #[Gedmo\Slug(fields: ['title'])]
@@ -104,6 +112,28 @@ class PageTranslation
     public function setTitle(?string $title): PageTranslation
     {
         $this->title = $title;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): PageTranslation
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->isEnabled;
+    }
+
+    public function setIsEnabled(bool $isEnabled): PageTranslation
+    {
+        $this->isEnabled = $isEnabled;
         return $this;
     }
 

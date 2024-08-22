@@ -22,6 +22,7 @@ class KikwikPageBundle extends AbstractBundle
     {
         $definition->rootNode()
             ->children()
+                ->scalarNode('admin_role')->defaultValue('ROLE_ADMIN_PAGE')->end()
                 ->scalarNode('default_locale')->defaultValue('%kernel.default_locale%')->end()
                 ->scalarNode('enabled_locales')->defaultValue('%kernel.enabled_locales%')->end()
             ->end()
@@ -35,6 +36,7 @@ class KikwikPageBundle extends AbstractBundle
         $container->services()
             ->get('kikwik_page.controller.admin_controller')
             ->arg('$enabledLocales', $config['enabled_locales'])
+            ->arg('$adminRole', $config['admin_role'])
         ;
     }
 }
