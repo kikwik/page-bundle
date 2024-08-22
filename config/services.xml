@@ -47,5 +47,12 @@
             <argument type="service" id="security.authorization_checker"/>
         </service>
 
+
+        <service id="kikwik_page.twig_components.admin_bar" class="Kikwik\PageBundle\Twig\Components\AdminBar">
+            <tag name="twig.component"/>
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="cmf_routing.router"/>
+            <argument type="service" id="security.authorization_checker"/>
+        </service>
     </services>
 </container>

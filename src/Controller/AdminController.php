@@ -25,7 +25,7 @@ class AdminController
         private PageRepository                $pageRepository,
         private FormFactory                   $formFactory,
         private RequestStack                  $requestStack,
-        private authorizationCheckerInterface $authorizationChecker,
+        private AuthorizationCheckerInterface $authorizationChecker,
         private array                         $enabledLocales,
         private string                        $adminRole,
     )

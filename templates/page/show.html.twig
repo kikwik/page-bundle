@@ -5,6 +5,8 @@
 {% block pageDescription %}{{ pageTranslation.description }}{% endblock %}
 
 {% block pageContent %}
+    <twig:KikwikPage:AdminBar/>
+
     {{ dump(pageTranslation) }}
     {% for block in pageTranslation.blocks %}
         {{ dump(block) }}
