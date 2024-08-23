@@ -6,7 +6,7 @@
 
     <route
             id="kikwik_page_admin_page_list"
-            path="/{_locale}"
+            path="/page"
             controller="kikwik_page.controller.admin_controller::pageList"
             methods="GET"
     >
@@ -15,7 +15,7 @@
 
     <route
             id="kikwik_page_admin_page_create"
-            path="/{_locale}/create/{parentId?}"
+            path="/page/create/{parentId?}"
             controller="kikwik_page.controller.admin_controller::pageCreate"
             methods="GET,POST"
     >
@@ -24,7 +24,7 @@
 
     <route
             id="kikwik_page_admin_page_update"
-            path="/{_locale}/update/{id}"
+            path="/page/{id}/update"
             controller="kikwik_page.controller.admin_controller::pageUpdate"
             methods="GET,POST"
     >
@@ -33,7 +33,7 @@
 
     <route
             id="kikwik_page_admin_page_delete"
-            path="/{_locale}/delete/{id}"
+            path="/page/{id}/delete"
             controller="kikwik_page.controller.admin_controller::pageDelete"
             methods="GET,POST"
     >
@@ -49,4 +49,15 @@
     >
         <requirement key="id">\d*</requirement>
     </route>
+
+
+    <route
+            id="kikwik_page_admin_block_update"
+            path="/block/{id}/update"
+            controller="kikwik_page.controller.admin_controller::blockUpdate"
+            methods="GET,POST"
+    >
+        <requirement key="id">\d*</requirement>
+    </route>
+
 </routes>

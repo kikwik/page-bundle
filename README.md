@@ -54,7 +54,13 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 #[AsTwigComponent]
 class Alert extends BaseBlockComponent
 {
-    
+    public function getDefaultValues(): array
+    {
+        return [
+            'type'=>'success',
+            'message'=>'Hello!',
+        ];
+    }
 }
 ```
 

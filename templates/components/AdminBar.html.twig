@@ -1,11 +1,11 @@
 <div style="position:fixed;top:1rem;right:1rem;">
+    {{ include('@KikwikPage/admin/_flashes.html.twig') }}
     {% if this.isEditable %}
-        {{ this.page.name }}
-        <a href="{{ this.editLink }}">edit</a>
+        <a href="{{ path('kikwik_page_admin_page_update', { id: this.page.id }) }}">{{ this.page.name }}</a><br/>
         {% if this.pageTranslation.blocks | length %}
             <ul>
                 {% for block in this.pageTranslation.blocks %}
-                    <li>blocco {{ block.position }}</li>
+                    <li><a href="{{ path('kikwik_page_admin_block_update', { id: block.id }) }}">blocco {{ block.position }}</a></li>
                 {% endfor %}
             </ul>
         {% endif %}

@@ -20,6 +20,15 @@
         </service>
         <service id="Kikwik\PageBundle\Repository\PageTranslationRepository" alias="kikwik_page.repository.page_translation_repository" public="true"/>
 
+        <!-- Kikwik\PageBundle\Repository\BlockRepository -->
+        <service id="kikwik_page.repository.block_repository" class="Kikwik\PageBundle\Repository\BlockRepository">
+            <tag name="doctrine.repository_service" />
+            <argument type="service" id="doctrine"/>
+        </service>
+        <service id="Kikwik\PageBundle\Repository\BlockRepository" alias="kikwik_page.repository.block_repository" public="true"/>
+
+
+
 
         <!-- Kikwik\PageBundle\Routing\PageTranslationRouteProvider -->
         <service id="kikwik_page.routing.page_translation_route_provider" class="Kikwik\PageBundle\Routing\PageTranslationRouteProvider">
@@ -43,6 +52,7 @@
             <argument type="service" id="doctrine"/>
             <argument type="service" id="kikwik_page.repository.page_repository"/>
             <argument type="service" id="kikwik_page.repository.page_translation_repository"/>
+            <argument type="service" id="kikwik_page.repository.block_repository"/>
             <argument type="service" id="kikwik_page.service.block_component_provider"/>
             <argument type="service" id="form.factory"/>
             <argument type="service" id="request_stack"/>
@@ -72,5 +82,12 @@
             <tag name="form.type"/>
             <argument type="service" id="kikwik_page.service.block_component_provider"/>
         </service>
+
+
+        <service id="kikwik_page.form.block_form_type" class="Kikwik\PageBundle\Form\BlockFormType">
+            <tag name="form.type"/>
+            <argument type="service" id="kikwik_page.service.block_component_provider"/>
+        </service>
+
     </services>
 </container>

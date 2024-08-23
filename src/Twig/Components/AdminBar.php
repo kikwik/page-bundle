@@ -37,11 +37,4 @@ class AdminBar
         $isGranted = !$this->adminRole || $this->authorizationChecker->isGranted($this->adminRole);
         return $this->getPageTranslation() && $isGranted;
     }
-
-    public function getEditLink(): ?string
-    {
-        return $this->isEditable()
-            ? $this->urlGenerator->generate('kikwik_page_admin_page_update', ['id' => $this->getPage()->getId()])
-            : null;
-    }
 }

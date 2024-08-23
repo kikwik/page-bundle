@@ -6,7 +6,9 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Kikwik\PageBundle\Entity\Block;
 use Kikwik\PageBundle\Entity\Page;
 use Kikwik\PageBundle\Form\BlockComponentChoiceType;
+use Kikwik\PageBundle\Form\BlockFormType;
 use Kikwik\PageBundle\Form\PageFormType;
+use Kikwik\PageBundle\Repository\BlockRepository;
 use Kikwik\PageBundle\Repository\PageRepository;
 use Kikwik\PageBundle\Repository\PageTranslationRepository;
 use Kikwik\PageBundle\Service\BlockComponentProvider;
@@ -28,6 +30,7 @@ class AdminController
         private Registry                      $doctrine,
         private PageRepository                $pageRepository,
         private PageTranslationRepository     $pageTranslationRepository,
+        private BlockRepository               $blockRepository,
         private BlockComponentProvider        $blockComponentProvider,
         private FormFactory                   $formFactory,
         private RequestStack                  $requestStack,
@@ -165,7 +168,7 @@ class AdminController
     }
 
 
-    public function pageTranslationAddBlock(Request $request, int $id)
+    public function pageTranslationAddBlock(Request $request, int $id): Response
     {
         $this->checkPermission();
 
@@ -187,7 +190,7 @@ class AdminController
                 $this->doctrine->getManager()->persist($block);
                 $this->doctrine->getManager()->flush();
                 $this->addFlash('success', 'Il blocco è stato aggiunto.');
-                return $this->redirectToRoute('kikwik_page_admin_page_list');
+                return $this->redirectToRoute('kikwik_page_admin_block_update',['id'=>$block->getId()]);
             }
 
             return $this->render('@KikwikPage/admin/block/add.html.twig', [
@@ -201,6 +204,39 @@ class AdminController
         }
         return $this->redirectToRoute('kikwik_page_admin_page_list');
     }
+
+    public function blockUpdate(Request $request, int $id): Response
+    {
+        $this->checkPermission();
+
+        /** @var Block $block */
+        $block = $this->blockRepository->find($id);
+        if ($block)
+        {
+            $form = $this->formFactory->create(BlockFormType::class, $block);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                /** @var Block $block */
+                $block = $form->getData();
+                $this->doctrine->getManager()->persist($block);
+                $this->doctrine->getManager()->flush();
+                $this->addFlash('success', 'Il blocco è stato modificato.');
+                return new RedirectResponse('/'.$block->getPageTranslation()->getSlug());
+            }
+
+            return $this->render('@KikwikPage/admin/block/update.html.twig', [
+                'form' => $form->createView(),
+                'block' => $block,
+            ]);
+        }
+        else
+        {
+            $this->addFlash('danger', 'Blocco non trovato.');
+        }
+
+        return $this->redirectToRoute('kikwik_page_admin_page_list');
+    }
+
 
     /**********************************/
     /* HELPERS                        */
