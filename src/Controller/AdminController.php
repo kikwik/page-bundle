@@ -3,9 +3,13 @@
 namespace Kikwik\PageBundle\Controller;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Kikwik\PageBundle\Entity\Block;
 use Kikwik\PageBundle\Entity\Page;
+use Kikwik\PageBundle\Form\BlockComponentChoiceType;
 use Kikwik\PageBundle\Form\PageFormType;
 use Kikwik\PageBundle\Repository\PageRepository;
+use Kikwik\PageBundle\Repository\PageTranslationRepository;
+use Kikwik\PageBundle\Service\BlockComponentProvider;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +27,8 @@ class AdminController
         private UrlGeneratorInterface         $urlGenerator,
         private Registry                      $doctrine,
         private PageRepository                $pageRepository,
+        private PageTranslationRepository     $pageTranslationRepository,
+        private BlockComponentProvider        $blockComponentProvider,
         private FormFactory                   $formFactory,
         private RequestStack                  $requestStack,
         private AuthorizationCheckerInterface $authorizationChecker,
@@ -32,7 +38,7 @@ class AdminController
     {
     }
 
-    public function list(string $_locale): Response
+    public function pageList(string $_locale): Response
     {
         $this->checkPermission();
 
@@ -42,14 +48,14 @@ class AdminController
             ->getQuery()
             ->getResult();
 
-        return $this->render('@KikwikPage/admin/list.html.twig', [
+        return $this->render('@KikwikPage/admin/page/list.html.twig', [
             'pages' => $pages,
             'selectedLocale' => $_locale,
             'enabledLocales' => $this->enabledLocales,
         ]);
     }
 
-    public function create(Request $request, ?int $parentId = null): Response
+    public function pageCreate(Request $request, ?int $parentId = null): Response
     {
         $this->checkPermission();
 
@@ -63,7 +69,7 @@ class AdminController
             if(!$parent)
             {
                 $this->addFlash('danger', 'Pagina padre non trovata.');
-                return $this->redirectToRoute('kikwik_page_admin_list');
+                return $this->redirectToRoute('kikwik_page_admin_page_list');
             }
             $page->setParent($parent);
         }
@@ -73,7 +79,7 @@ class AdminController
             if($this->pageRepository->count([]))
             {
                 $this->addFlash('danger', 'La homepage esiste già.');
-                return $this->redirectToRoute('kikwik_page_admin_list');
+                return $this->redirectToRoute('kikwik_page_admin_page_list');
             }
             $page->setParent(null);
             $page->setName('Homepage');
@@ -92,16 +98,16 @@ class AdminController
             $this->doctrine->getManager()->persist($page);
             $this->doctrine->getManager()->flush();
             $this->addFlash('success', 'La pagina è stata creata.');
-            return $this->redirectToRoute('kikwik_page_admin_update', ['id' => $page->getId()]);
+            return $this->redirectToRoute('kikwik_page_admin_page_update', ['id' => $page->getId()]);
         }
 
-        return $this->render('@KikwikPage/admin/create.html.twig', [
+        return $this->render('@KikwikPage/admin/page/create.html.twig', [
             'form' => $form->createView(),
             'parent'=>$parent,
         ]);
     }
 
-    public function update(Request $request, int $id): Response
+    public function pageUpdate(Request $request, int $id): Response
     {
         $this->checkPermission();
 
@@ -116,20 +122,20 @@ class AdminController
                 $this->doctrine->getManager()->persist($page);
                 $this->doctrine->getManager()->flush();
                 $this->addFlash('success', 'La pagina è stata modificata.');
-                return $this->redirectToRoute('kikwik_page_admin_list');
+                return $this->redirectToRoute('kikwik_page_admin_page_list');
             }
 
-            return $this->render('@KikwikPage/admin/update.html.twig', [
+            return $this->render('@KikwikPage/admin/page/update.html.twig', [
                 'form' => $form->createView(),
                 'page'=>$page,
                 'enabledLocales' => $this->enabledLocales,
             ]);
         }
 
-        return $this->redirectToRoute('kikwik_page_admin_list');
+        return $this->redirectToRoute('kikwik_page_admin_page_list');
     }
 
-    public function delete(Request $request, int $id): Response
+    public function pageDelete(Request $request, int $id): Response
     {
         $this->checkPermission();
 
@@ -145,7 +151,7 @@ class AdminController
             else
             {
                 $children = $this->pageRepository->getChildren($page);
-                return $this->render('@KikwikPage/admin/delete.html.twig', [
+                return $this->render('@KikwikPage/admin/page/delete.html.twig', [
                     'page' => $page,
                     'children'=>$children,
                 ]);
@@ -155,9 +161,46 @@ class AdminController
         {
             $this->addFlash('danger', 'Pagina non trovata.');
         }
-        return $this->redirectToRoute('kikwik_page_admin_list');
+        return $this->redirectToRoute('kikwik_page_admin_page_list');
     }
 
+
+    public function pageTranslationAddBlock(Request $request, int $id)
+    {
+        $this->checkPermission();
+
+        $pageTranslation = $this->pageTranslationRepository->find($id);
+        if($pageTranslation)
+        {
+            $form = $this->formFactory->createBuilder()
+                ->add('component',BlockComponentChoiceType::class)
+                ->getForm();
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid())
+            {
+                $componentName = $form->getData()['component'];
+                $component = $this->blockComponentProvider->getBlockComponent($componentName);
+                $block = new Block();
+                $block->setPageTranslation($pageTranslation);
+                $block->setComponent($componentName);
+                $block->setParameters($component->getDefaultValues());
+                $this->doctrine->getManager()->persist($block);
+                $this->doctrine->getManager()->flush();
+                $this->addFlash('success', 'Il blocco è stato aggiunto.');
+                return $this->redirectToRoute('kikwik_page_admin_page_list');
+            }
+
+            return $this->render('@KikwikPage/admin/block/add.html.twig', [
+                'form' => $form->createView(),
+                'pageTranslation'=>$pageTranslation,
+            ]);
+        }
+        else
+        {
+            $this->addFlash('danger', 'Pagina non trovata.');
+        }
+        return $this->redirectToRoute('kikwik_page_admin_page_list');
+    }
 
     /**********************************/
     /* HELPERS                        */

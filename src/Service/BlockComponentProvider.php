@@ -39,4 +39,9 @@ class BlockComponentProvider
 
         return $components;
     }
+
+    public function getBlockComponent(string $name): ?BlockComponentInterface
+    {
+        return $this->getBlockComponents()[$name] ?? null;
+    }
 }

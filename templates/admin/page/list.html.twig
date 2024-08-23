@@ -5,7 +5,7 @@
         Elenco pagine
         <div class="btn-group" role="group" aria-label="Enabled Locales">
             {% for locale in enabledLocales %}
-                <a href="{{ path('kikwik_page_admin_list', {'_locale': locale}) }}"
+                <a href="{{ path('kikwik_page_admin_page_list', {'_locale': locale}) }}"
                    class="btn btn-outline-primary {% if locale == selectedLocale %}active{% endif %}"
                    role="button">
                     {{ locale|upper }}
@@ -40,9 +40,9 @@
                             {% endif %}
                         </td>
                         <td>
-                            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_create',{parentId: page.id}) }}" title="Aggiungi pagina figlia"><i class="bi bi-plus"></i></a>
-                            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_update',{id: page.id}) }}" title="Modifica pagina"><i class="bi bi-pencil"></i></a>
-                            <a class="btn btn-sm btn-outline-danger" href="{{ path('kikwik_page_admin_delete',{id: page.id}) }}" title="Elimina pagina"><i class="bi bi-trash"></i></a>
+                            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_page_create',{parentId: page.id}) }}" title="Aggiungi pagina figlia"><i class="bi bi-plus"></i></a>
+                            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_page_update',{id: page.id}) }}" title="Modifica pagina"><i class="bi bi-pencil"></i></a>
+                            <a class="btn btn-sm btn-outline-danger" href="{{ path('kikwik_page_admin_page_delete',{id: page.id}) }}" title="Elimina pagina"><i class="bi bi-trash"></i></a>
                         </td>
                     </tr>
 
@@ -50,7 +50,7 @@
             </tbody>
         </table>
     {% else %}
-        <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_create') }}">Crea homepage</a>
+        <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_page_create') }}">Crea homepage</a>
     {% endif %}
 
 {% endblock %}

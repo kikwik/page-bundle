@@ -40,6 +40,26 @@ kikwik_page_bundle_admin:
     prefix: '/admin/page'
 ```
 
-## Usage
+## Block
 
+A block renderer must be a TwigComponent that implements `Kikwik\PageBundle\Block\BlockComponentInterface`
+You can extends `BaseBlockComponent`
 
+```php
+namespace App\Twig\Components;
+
+use Kikwik\PageBundle\Block\BaseBlockComponent;
+use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
+
+#[AsTwigComponent]
+class Alert extends BaseBlockComponent
+{
+    
+}
+```
+
+```twig
+<div class="alert alert-{{ this.parameters['type'] | default('success') }}">
+    {{ this.parameters['message'] | default('default message') }}
+</div>
+```

@@ -1,3 +1,15 @@
-{% if this.editLink %}
-    <a href="{{ this.editLink }}">Modifica pagina</a>
-{% endif %}
+<div style="position:fixed;top:1rem;right:1rem;">
+    {% if this.isEditable %}
+        {{ this.page.name }}
+        <a href="{{ this.editLink }}">edit</a>
+        {% if this.pageTranslation.blocks | length %}
+            <ul>
+                {% for block in this.pageTranslation.blocks %}
+                    <li>blocco {{ block.position }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <a href="{{ path('kikwik_page_admin_pageTranslation_addBlock', {id: this.pageTranslation.id }) }}">Aggiungi blocco</a>
+    {% endif %}
+</div>
+

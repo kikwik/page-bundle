@@ -1,0 +1,7 @@
+{% form_theme form 'bootstrap_5_horizontal_layout.html.twig' %}
+
+{{ form_start(form, { 'attr': { 'novalidate': 'novalidate' } }) }}
+    {{ form_widget(form) }}
+    <a href="{{ path('kikwik_page_admin_page_list') }}" class="btn btn-outline-secondary">Annulla</a>
+    <button type="submit" class="btn btn-outline-primary">Salva</button>
+{{ form_end(form) }}

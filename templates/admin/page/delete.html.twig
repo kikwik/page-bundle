@@ -15,7 +15,7 @@
     {% endfor %}
 
     <form method="post">
-        <a href="{{ path('kikwik_page_admin_list') }}" class="btn btn-outline-secondary">Annulla</a>
+        <a href="{{ path('kikwik_page_admin_page_list') }}" class="btn btn-outline-secondary">Annulla</a>
         <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Stai per eliminare definitivamente {{ (children | length) + 1 }} pagine dal sito!!!')">Elimina pagine</button>
     </form>
 

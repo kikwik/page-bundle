@@ -2,6 +2,8 @@
 
 namespace Kikwik\PageBundle\Twig\Components;
 
+use Kikwik\PageBundle\Entity\Page;
+use Kikwik\PageBundle\Entity\PageTranslation;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -19,12 +21,27 @@ class AdminBar
     {
     }
 
+
+    public function getPageTranslation(): ?PageTranslation
+    {
+        return $this->requestStack->getCurrentRequest()->get('pageTranslation');
+    }
+
+    public function getPage(): ?Page
+    {
+        return $this->getPageTranslation()?->getPage();
+    }
+
+    public function isEditable(): bool
+    {
+        $isGranted = !$this->adminRole || $this->authorizationChecker->isGranted($this->adminRole);
+        return $this->getPageTranslation() && $isGranted;
+    }
+
     public function getEditLink(): ?string
     {
-        $pageTranslation = $this->requestStack->getCurrentRequest()->get('pageTranslation');
-        $isGranted = !$this->adminRole || $this->authorizationChecker->isGranted($this->adminRole);
-        return $pageTranslation && $isGranted
-            ? $this->urlGenerator->generate('kikwik_page_admin_update', ['id' => $pageTranslation->getPage()->getId()])
+        return $this->isEditable()
+            ? $this->urlGenerator->generate('kikwik_page_admin_page_update', ['id' => $this->getPage()->getId()])
             : null;
     }
 }
