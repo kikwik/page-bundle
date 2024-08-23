@@ -34,7 +34,7 @@ class Block
 
     #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
     #[Assert\NotBlank()]
-    protected ?string $service = null;
+    protected ?string $component = null;
 
     #[ORM\Column(type: Types::JSON, nullable: false)]
     #[Assert\NotBlank()]
@@ -46,6 +46,12 @@ class Block
     #[ORM\Column(type: Types::INTEGER)]
     #[Gedmo\SortablePosition()]
     protected ?int $position = null;
+
+    /**************************************/
+    /* CUSTOM METHODS                     */
+    /**************************************/
+
+
 
     /**************************************/
     /* GETTERS & SETTERS                  */
@@ -67,14 +73,14 @@ class Block
         return $this;
     }
 
-    public function getService(): ?string
+    public function getComponent(): ?string
     {
-        return $this->service;
+        return $this->component;
     }
 
-    public function setService(?string $service): Block
+    public function setComponent(?string $component): Block
     {
-        $this->service = $service;
+        $this->component = $component;
         return $this;
     }
 

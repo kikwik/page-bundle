@@ -7,8 +7,11 @@
 {% block pageContent %}
     <twig:KikwikPage:AdminBar/>
 
-    {{ dump(pageTranslation) }}
+    <h1>{{ pageTranslation.title }}</h1>
+    <p>{{ pageTranslation.description }}</p>
+
     {% for block in pageTranslation.blocks %}
-        {{ dump(block) }}
+        {{ component(block.component, { parameters: block.parameters }) }}
+
     {% endfor %}
 {% endblock %}

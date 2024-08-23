@@ -47,12 +47,28 @@
             <argument type="service" id="security.authorization_checker"/>
         </service>
 
-
+        <!-- Kikwik\PageBundle\Twig\Components\AdminBar -->
         <service id="kikwik_page.twig_components.admin_bar" class="Kikwik\PageBundle\Twig\Components\AdminBar">
             <tag name="twig.component"/>
             <argument type="service" id="request_stack"/>
             <argument type="service" id="cmf_routing.router"/>
             <argument type="service" id="security.authorization_checker"/>
+        </service>
+
+
+
+        <service id="kikwik_page.twig_components_block.text" class="Kikwik\PageBundle\Twig\Components\Block\Text">
+            <tag name="twig.component"/>
+        </service>
+
+        <service id="kikwik_page.service.block_component_provider" class="Kikwik\PageBundle\Service\BlockComponentProvider">
+            <argument type="service" id="service_container"/>
+            <argument type="tagged_iterator" tag="twig.component"/>
+        </service>
+
+        <service id="kikwik_page.form.block_component_choice_type" class="Kikwik\PageBundle\Form\BlockComponentChoiceType">
+            <tag name="form.type"/>
+            <argument type="service" id="kikwik_page.service.block_component_provider"/>
         </service>
     </services>
 </container>

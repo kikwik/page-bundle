@@ -3,6 +3,7 @@
 namespace Kikwik\PageBundle\Controller;
 
 use Kikwik\PageBundle\Entity\PageTranslation;
+use Kikwik\PageBundle\Service\BlockLoader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;

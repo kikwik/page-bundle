@@ -3,10 +3,12 @@
 
 namespace Kikwik\PageBundle;
 
+use Kikwik\PageBundle\Block\BlockComponentInterface;
 use Kikwik\PageBundle\Repository\PageRepository;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 class KikwikPageBundle extends AbstractBundle
@@ -53,4 +55,6 @@ class KikwikPageBundle extends AbstractBundle
             ->arg('$adminRole', $config['admin_role'])
         ;
     }
+
+
 }

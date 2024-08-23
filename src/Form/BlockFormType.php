@@ -12,7 +12,7 @@ class BlockFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('service')
+            ->add('component',BlockComponentChoiceType::class)
             ->add('isEnabled')
             ->add('parameters')
         ;
