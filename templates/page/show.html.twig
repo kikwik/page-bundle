@@ -11,7 +11,8 @@
     <p>{{ pageTranslation.description }}</p>
 
     {% for block in pageTranslation.blocks %}
-        {{ component(block.component, { parameters: block.parameters }) }}
-
+        <div class="kw-page-block" data-block-id="{{ block.id }}">
+            {{ component(block.component, { block: block }) }}
+        </div>
     {% endfor %}
 {% endblock %}

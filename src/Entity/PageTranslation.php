@@ -64,7 +64,7 @@ class PageTranslation
     /**
      * @var Collection<int, Block>
      */
-    #[ORM\OneToMany(targetEntity: Block::class, mappedBy: 'pageTranslation', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Block::class, mappedBy: 'pageTranslation', cascade: ['persist','remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
     #[Assert\Valid]
     protected Collection $blocks;

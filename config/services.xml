@@ -69,9 +69,7 @@
 
 
 
-        <service id="kikwik_page.twig_components_block.text" class="Kikwik\PageBundle\Twig\Components\Block\Text">
-            <tag name="twig.component"/>
-        </service>
+
 
         <service id="kikwik_page.service.block_component_provider" class="Kikwik\PageBundle\Service\BlockComponentProvider">
             <argument type="service" id="service_container"/>

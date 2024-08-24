@@ -21,6 +21,10 @@ class AdminBar
     {
     }
 
+    public function isGranted(): bool
+    {
+        return !$this->adminRole || $this->authorizationChecker->isGranted($this->adminRole);
+    }
 
     public function getPageTranslation(): ?PageTranslation
     {
@@ -30,11 +34,5 @@ class AdminBar
     public function getPage(): ?Page
     {
         return $this->getPageTranslation()?->getPage();
-    }
-
-    public function isEditable(): bool
-    {
-        $isGranted = !$this->adminRole || $this->authorizationChecker->isGranted($this->adminRole);
-        return $this->getPageTranslation() && $isGranted;
     }
 }

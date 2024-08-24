@@ -44,6 +44,8 @@ class KikwikPageBundle extends AbstractBundle
     {
         $container->import('../config/services.xml');
 
+        $container->import('../config/services_block.xml');
+
         $container->services()
             ->get('kikwik_page.controller.admin_controller')
             ->arg('$enabledLocales', $config['enabled_locales'])

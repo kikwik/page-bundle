@@ -19,12 +19,15 @@ class BlockComponentProvider
         $choices = [];
 
         foreach ($this->getBlockComponents() as $component) {
-            $choices[$component->getLabel()] = $component->getName();
+            $choices[$component->getComponentLabel()] = $component->getComponentName();
         }
 
         return $choices;
     }
 
+    /**
+     * @return BlockComponentInterface[]
+     */
     public function getBlockComponents(): array
     {
         $components = [];
@@ -33,7 +36,7 @@ class BlockComponentProvider
         {
             if($component instanceof BlockComponentInterface)
             {
-                $components[$component->getName()] = $component;
+                $components[$component->getComponentName()] = $component;
             }
         }
 

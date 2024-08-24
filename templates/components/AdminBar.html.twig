@@ -1,15 +1,24 @@
-<div style="position:fixed;top:1rem;right:1rem;">
-    {{ include('@KikwikPage/admin/_flashes.html.twig') }}
-    {% if this.isEditable %}
-        <a href="{{ path('kikwik_page_admin_page_update', { id: this.page.id }) }}">{{ this.page.name }}</a><br/>
-        {% if this.pageTranslation.blocks | length %}
-            <ul>
-                {% for block in this.pageTranslation.blocks %}
-                    <li><a href="{{ path('kikwik_page_admin_block_update', { id: block.id }) }}">blocco {{ block.position }}</a></li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-        <a href="{{ path('kikwik_page_admin_pageTranslation_addBlock', {id: this.pageTranslation.id }) }}">Aggiungi blocco</a>
-    {% endif %}
-</div>
+{% if this.isGranted %}
+    <link rel="stylesheet" href="{{ asset('bundles/kikwikpage/admin.css') }}">
+    <script src="{{ asset('bundles/kikwikpage/admin.js') }}"></script>
 
+    <div class="kw-page-admin-bar">
+        <a href="#" class="kw-page-admin-bar__toggle-icon"><twig:ux:icon name="game-icons:hamburger-menu" height="16"/></a>
+        <div class="kw-page-admin-bar__content">
+            <twig:KikwikPage:Flashes/>
+            <a href="{{ path('kikwik_page_admin_page_list') }}">Elenco pagine</a>
+            {% if this.page %}
+                <a href="{{ path('kikwik_page_admin_page_update', { id: this.page.id }) }}">{{ this.page.name }}</a><br/>
+                {% if this.pageTranslation.blocks | length %}
+                    <ul>
+                        {% for block in this.pageTranslation.blocks %}
+                            <li><a href="{{ path('kikwik_page_admin_block_update', { id: block.id }) }}">blocco {{ block.position }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <a href="{{ path('kikwik_page_admin_pageTranslation_addBlock', {id: this.pageTranslation.id }) }}">Aggiungi blocco</a>
+            {% endif %}
+        </div>
+
+    </div>
+{% endif %}

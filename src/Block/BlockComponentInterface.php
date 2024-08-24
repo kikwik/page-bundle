@@ -2,15 +2,17 @@
 
 namespace Kikwik\PageBundle\Block;
 
+use Kikwik\PageBundle\Entity\Block;
 use Symfony\Component\Form\FormBuilderInterface;
 
 interface BlockComponentInterface
 {
-    public function getName(): string;
-    public function getLabel(): string;
+    public function getComponentName(): string;
+    public function getComponentLabel(): string;
 
-    public function setParameters(array $parameters): void;
-    public function getParameters(): array;
+    public function setBlock(Block $block): void;
+
+    public function getBlock(): Block;
 
     public function getDefaultValues(): array;
 }

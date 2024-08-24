@@ -2,20 +2,11 @@
 
 namespace Kikwik\PageBundle\Block;
 
+use Kikwik\PageBundle\Entity\Block;
+
 abstract class BaseBlockComponent implements BlockComponentInterface
 {
-    private $parameters = [];
-
-    public function setParameters(array $parameters): void
-    {
-        $this->parameters = $parameters;
-    }
-    public function getParameters(): array
-    {
-        return $this->parameters;
-    }
-
-    public function getName(): string
+    public function getComponentName(): string
     {
         $class = get_class($this);
         $strippedClass = str_replace(['Kikwik\PageBundle\Twig\Components','App\Twig\Components\\'],['KikwikPage',''],$class);
@@ -23,9 +14,28 @@ abstract class BaseBlockComponent implements BlockComponentInterface
         return str_replace('\\',':',$strippedClass);
     }
 
-    public function getLabel(): string
+    public function getComponentLabel(): string
     {
-        return $this->getName();
+        return $this->getComponentName();
     }
+
+    private ?Block $block = null;
+
+    public function getBlock(): Block
+    {
+        return $this->block;
+    }
+
+    public function setBlock(Block $block): void
+    {
+        $this->block = $block;
+    }
+
+    public function get(string $parameterKey)
+    {
+        return $this->block?->getParameters()[$parameterKey] ?? null;
+    }
+
+
 
 }

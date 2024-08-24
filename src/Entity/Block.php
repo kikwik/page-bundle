@@ -28,7 +28,7 @@ class Block
     protected ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'blocks')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     #[Gedmo\SortableGroup()]
     protected ?PageTranslation $pageTranslation = null;
 

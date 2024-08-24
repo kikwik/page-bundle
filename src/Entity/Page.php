@@ -66,7 +66,7 @@ class Page
     /**
      * @var Collection<int, PageTranslation>
      */
-    #[ORM\OneToMany(targetEntity: PageTranslation::class, mappedBy: 'page', cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: PageTranslation::class, mappedBy: 'page', cascade: ['persist','remove'], orphanRemoval: true)]
     #[Assert\Valid]
     protected Collection $translations;
 

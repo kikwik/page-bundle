@@ -65,7 +65,7 @@ class Alert extends BaseBlockComponent
 ```
 
 ```twig
-<div class="alert alert-{{ this.parameters['type'] | default('success') }}">
-    {{ this.parameters['message'] | default('default message') }}
+<div class="alert alert-{{ this.get('type') | default('success') }}">
+    {{ this.get('message') | default('default message') }}
 </div>
 ```

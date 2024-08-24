@@ -10,7 +10,7 @@
 <body>
     <div class="container-fluid">
         <h1>Admin pagine</h1>
-        {{ include('@KikwikPage/admin/_flashes.html.twig') }}
+        <twig:KikwikPage:Flashes/>
 
         {% block body %}{% endblock %}
     </div>
