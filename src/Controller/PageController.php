@@ -18,6 +18,8 @@ class PageController
 
     public function show(Request $request, PageTranslation $pageTranslation): Response
     {
+        $request->setLocale($pageTranslation->getLocale());
+
         return new Response($this->twig->render('@KikwikPage/page/show.html.twig', [
             'pageTranslation' => $pageTranslation,
         ]));

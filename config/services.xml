@@ -69,8 +69,6 @@
 
 
 
-
-
         <service id="kikwik_page.service.block_component_provider" class="Kikwik\PageBundle\Service\BlockComponentProvider">
             <argument type="service" id="service_container"/>
             <argument type="tagged_iterator" tag="twig.component"/>
@@ -85,6 +83,13 @@
         <service id="kikwik_page.form.block_form_type" class="Kikwik\PageBundle\Form\BlockFormType">
             <tag name="form.type"/>
             <argument type="service" id="kikwik_page.service.block_component_provider"/>
+        </service>
+
+
+
+        <service id="kikwik_page.twig_components.locale_switcher" class="Kikwik\PageBundle\Twig\Components\LocaleSwitcher">
+            <tag name="twig.component"/>
+            <argument type="service" id="request_stack"/>
         </service>
 
     </services>

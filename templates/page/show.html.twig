@@ -7,8 +7,8 @@
 {% block pageContent %}
     <twig:KikwikPage:AdminBar/>
 
-    <h1>{{ pageTranslation.title }}</h1>
-    <p>{{ pageTranslation.description }}</p>
+    <twig:KikwikPage:LocaleSwitcher/>
+
 
     {% for block in pageTranslation.blocks %}
         <div class="kw-page-block" data-block-id="{{ block.id }}">

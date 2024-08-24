@@ -1,0 +1,9 @@
+{% if this.pageTranslation %}
+    <ul class="kw-page-locale-switcher">
+        {% for locale,url in this.urls %}
+            <li {% if this.currentLocale == locale %}class="active"{% endif %}>
+                <a href="{{ url }}">{{ locale }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
