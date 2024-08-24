@@ -1,10 +1,13 @@
 {% extends '@KikwikPage/admin/layout.htlm.twig' %}
 
 {% block body %}
-    <h1 class="mb-5">
-        Crea {% if parent %}pagina figlia di {{ parent }}{% else %}homepage{% endif %}
-    </h1>
-
-    {% include '@KikwikPage/admin/page/_form.html.twig' %}
+    <div class="card">
+        <div class="card-header">
+            Crea {% if parent %}pagina figlia di {{ parent }}{% else %}homepage{% endif %}
+        </div>
+        <div class="card-body">
+            {% include '@KikwikPage/admin/page/_form.html.twig' %}
+        </div>
+    </div>
 
 {% endblock %}

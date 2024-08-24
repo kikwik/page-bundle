@@ -18,6 +18,7 @@ class PageFormType extends AbstractType
             ->add('name')
             ->add('translations', CollectionType::class, [
                 'entry_type' => PageTranslationFormType::class,
+                'label'=>false,
             ])
         ;
     }

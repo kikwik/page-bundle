@@ -32,12 +32,16 @@
                             {{ page.name }}
                         </td>
                         <td>
-                            {{ page.translation(selectedLocale).title }}
+                            {% for locale in enabledLocales %}
+                                {{ locale | upper }}: {{ page.translation(locale).title }}<br/>
+                            {% endfor %}
                         </td>
                         <td>
-                            {% if page.translation(selectedLocale).id %}
-                                <a class="btn btn-sm btn-outline-primary" href="/{{ page.translation(selectedLocale).slug }}"><i class="bi bi-link-45deg"></i></a>
-                            {% endif %}
+                            {% for locale in enabledLocales %}
+                                {% if page.translation(locale).id %}
+                                    <a class="btn btn-sm btn-outline-primary" href="/{{ page.translation(locale).slug }}">{{ locale | upper }}</a>
+                                {% endif %}
+                            {% endfor %}
                         </td>
                         <td>
                             <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_page_create',{parentId: page.id}) }}" title="Aggiungi pagina figlia"><i class="bi bi-plus"></i></a>

@@ -19,6 +19,7 @@ class PageTranslationFormType extends AbstractType
             ->add('isEnabled')
             ->add('blocks', CollectionType::class, [
                 'entry_type'=>BlockFormType::class,
+                'label'=>false,
             ])
         ;
     }
