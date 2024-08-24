@@ -16,17 +16,9 @@ class KikwikPageBundle extends AbstractBundle
 
     public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        $builder->prependExtensionConfig('twig_component', [
-            'defaults' => [
-                'Kikwik\PageBundle\Twig\Components\\' => [
-                    'template_directory' => '@KikwikPage/components/',
-                    'name_prefix' => 'KikwikPage',
-                ],
-            ],
-        ]);
-
         $container->import('../config/packages/cmf_routing.yaml');
         $container->import('../config/packages/stof_doctrine_extensions.yaml');
+        $container->import('../config/packages/twig_component.yaml');
     }
 
     public function configure(DefinitionConfigurator $definition): void
@@ -36,6 +28,7 @@ class KikwikPageBundle extends AbstractBundle
                 ->scalarNode('admin_role')->defaultValue('ROLE_ADMIN_PAGE')->end()
                 ->scalarNode('default_locale')->defaultValue('%kernel.default_locale%')->end()
                 ->scalarNode('enabled_locales')->defaultValue('%kernel.enabled_locales%')->end()
+                ->booleanNode('enable_components')->defaultValue(true)->end()
             ->end()
         ;
     }
@@ -44,7 +37,10 @@ class KikwikPageBundle extends AbstractBundle
     {
         $container->import('../config/services.xml');
 
-        $container->import('../config/services_block.xml');
+        if($config['enable_components'])
+        {
+            $container->import('../config/services_block.xml');
+        }
 
         $container->services()
             ->get('kikwik_page.controller.admin_controller')

@@ -37,7 +37,6 @@ class Block
     protected ?string $component = null;
 
     #[ORM\Column(type: Types::JSON, nullable: false)]
-    #[Assert\NotBlank()]
     protected array $parameters = [];
 
     #[ORM\Column(type: Types::BOOLEAN, nullable: false)]

@@ -1,0 +1,5 @@
+twig_component:
+  defaults:
+    Kikwik\PageBundle\Twig\Components\:
+      template_directory:  '@KikwikPage/components/'
+      name_prefix:         'KikwikPage'

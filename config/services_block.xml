@@ -13,5 +13,10 @@
             <tag name="twig.component"/>
         </service>
 
+        <service id="kikwik_page.twig_components_block.child_list" class="Kikwik\PageBundle\Twig\Components\Block\ChildList">
+            <tag name="twig.component"/>
+            <argument type="service" id="kikwik_page.repository.page_translation_repository"/>
+        </service>
+
     </services>
 </container>

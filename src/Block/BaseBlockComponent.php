@@ -19,7 +19,7 @@ abstract class BaseBlockComponent implements BlockComponentInterface
         return $this->getComponentName();
     }
 
-    private ?Block $block = null;
+    protected ?Block $block = null;
 
     public function getBlock(): Block
     {

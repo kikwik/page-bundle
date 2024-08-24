@@ -85,6 +85,16 @@ class Page
         return (string)$this->name;
     }
 
+    public function hasTranslation(string $locale): bool
+    {
+        foreach($this->translations as $translation) {
+            if($translation->getLocale() === $locale) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function getTranslation(string $locale): ?PageTranslation
     {
         foreach($this->translations as $translation) {
