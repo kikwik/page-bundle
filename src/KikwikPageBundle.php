@@ -41,10 +41,6 @@ class KikwikPageBundle extends AbstractBundle
         {
             $container->import('../config/services_block.xml');
 
-            $container->services()
-                ->get('kikwik_page.twig_components.admin_bar')
-                ->arg('$adminRole', $config['admin_role'])
-            ;
         }
 
         $container->services()
@@ -54,6 +50,10 @@ class KikwikPageBundle extends AbstractBundle
         ;
 
 
+        $container->services()
+            ->get('kikwik_page.twig_components.admin_bar')
+            ->arg('$adminRole', $config['admin_role'])
+        ;
     }
 
 

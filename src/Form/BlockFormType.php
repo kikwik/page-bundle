@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BlockFormType extends AbstractType
@@ -30,40 +31,36 @@ class BlockFormType extends AbstractType
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $block = $event->getData();
-            $form = $event->getForm();
-
-            if (!$block || null === $block->getComponent()) {
-                return;
-            }
-
-            $component  = $this->blockComponentProvider->getBlockComponent($block->getComponent());
-            if($component)
-            {
-                foreach ($component->getDefaultValues() as $field => $default)
-                {
-                    $form->get('parameters')->add($field);
-                }
-            }
+            $this->updateParametersForm($event);
         });
-
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
-            $data = $event->getData();
-            $form = $event->getForm();
+            $this->updateParametersForm($event);
+        });
+    }
 
-            // Get the new component value
-            $component = $data['component'] ?? null;
+    private function updateParametersForm(FormEvent $event): void
+    {
+        $data = $event->getData();
+        if (is_null($data)) {
+            return;
+        }
+        $form = $event->getForm();
 
-            if ($component) {
-                // Get the block component details
-                $blockComponent = $this->blockComponentProvider->getBlockComponent($component);
-                if($blockComponent) {
-                    foreach ($blockComponent->getDefaultValues() as $field => $default) {
-                        $form->get('parameters')->add($field);
-                    }
+        $componentName = is_object($data) ? $data->getComponent() : ($data['component'] ?? null);
+        if ($componentName)
+        {
+            $blockComponent = $this->blockComponentProvider->getBlockComponent($componentName);
+            if ($blockComponent)
+            {
+                $parametersForm = $form->get('parameters');
+                foreach ($parametersForm->all() as $fieldName => $child) {
+                    $parametersForm->remove($fieldName);
+                }
+                foreach ($blockComponent->getDefaultValues() as $field => $default) {
+                    $parametersForm->add($field);
                 }
             }
-        });
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)

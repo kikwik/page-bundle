@@ -18,18 +18,7 @@
             <argument type="service" id="kikwik_page.repository.page_translation_repository"/>
         </service>
 
-        <!-- Twig\Components\AdminBar -->
-        <service id="kikwik_page.twig_components.admin_bar" class="Kikwik\PageBundle\Twig\Components\AdminBar">
-            <tag name="twig.component"/>
-            <argument type="service" id="request_stack"/>
-            <argument type="service" id="security.authorization_checker"/>
-        </service>
 
-        <!-- Twig\Components\LocaleSwitcher -->
-        <service id="kikwik_page.twig_components.locale_switcher" class="Kikwik\PageBundle\Twig\Components\LocaleSwitcher">
-            <tag name="twig.component"/>
-            <argument type="service" id="request_stack"/>
-        </service>
 
 
     </services>

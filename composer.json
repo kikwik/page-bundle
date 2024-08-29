@@ -16,7 +16,8 @@
         "symfony/ux-twig-component": "^2.19.2",
         "symfony/ux-live-component": "^2.19.2",
         "symfony/ux-icons": "^2.19",
-        "stof/doctrine-extensions-bundle": "^1.10"
+        "stof/doctrine-extensions-bundle": "^1.10",
+        "symfonycasts/dynamic-forms": "^0.1"
     },
     "autoload": {
         "psr-4": {
