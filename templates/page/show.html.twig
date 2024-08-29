@@ -6,8 +6,10 @@
 
 {% block body %}
     {% for block in pageTranslation.blocks %}
-        <div class="kw-page-block" data-block-id="{{ block.id }}">
-            {{ component(block.component, { block: block }) }}
-        </div>
+        {% if block.isEnabled %}
+            <div class="kw-page-block" data-block-id="{{ block.id }}">
+                {{ component(block.component, { block: block }) }}
+            </div>
+        {% endif %}
     {% endfor %}
 {% endblock %}

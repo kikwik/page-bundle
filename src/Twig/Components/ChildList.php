@@ -6,6 +6,7 @@ use Kikwik\PageBundle\Block\BaseBlockComponent;
 use Kikwik\PageBundle\Entity\Page;
 use Kikwik\PageBundle\Entity\PageTranslation;
 use Kikwik\PageBundle\Repository\PageTranslationRepository;
+use Symfony\Component\Form\FormInterface;
 
 class ChildList extends BaseBlockComponent
 {
@@ -19,6 +20,11 @@ class ChildList extends BaseBlockComponent
     {
         return [];
     }
+
+    public function buildEditForm(FormInterface $form): void
+    {
+    }
+
 
     /**
      * @return PageTranslation[]

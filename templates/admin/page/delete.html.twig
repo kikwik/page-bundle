@@ -1,22 +1,28 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="mb-5">
-        Elimina pagina {{ page }}
-    </h1>
 
-    <p>Verranno eliminate definitivamente le seguenti pagine:</p>
-
-    {{ page }}
-    {% for child in children %}
-        <div style="padding-left: {{ child.lvl }}rem;">
-            {{ child.name }}
+    <div class="card m-3">
+        <div class="card-header">
+            Elimina pagina {{ page }}
         </div>
-    {% endfor %}
+        <div class="card-body">
+            <p>Verranno eliminate definitivamente le seguenti pagine:</p>
+            - {{ page }}
+            {% for child in children %}
+                <div style="padding-left: {{ child.lvl }}rem;">
+                    - {{ child.name }}
+                </div>
+            {% endfor %}
 
-    <form method="post">
-        <a href="{{ path('kikwik_page_admin_page_list') }}" class="btn btn-outline-secondary">Annulla</a>
-        <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Stai per eliminare definitivamente {{ (children | length) + 1 }} pagine dal sito!!!')">Elimina pagine</button>
-    </form>
+            <form method="post" class="mt-3">
+                <a href="{{ path('kikwik_page_admin_page_list') }}" class="btn btn-outline-secondary">Annulla</a>
+                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Stai per eliminare definitivamente {{ (children | length) + 1 }} pagine dal sito!!!')">Elimina pagine</button>
+            </form>
+        </div>
+
+    </div>
+
+
 
 {% endblock %}

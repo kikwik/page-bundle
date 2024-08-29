@@ -125,7 +125,7 @@ class AdminController
                 $this->doctrine->getManager()->persist($page);
                 $this->doctrine->getManager()->flush();
                 $this->addFlash('success', 'La pagina è stata modificata.');
-                return $this->redirectToRoute('kikwik_page_admin_page_list');
+                return $this->redirectToRoute('kikwik_page_admin_page_update', ['id' => $page->getId()]);
             }
 
             return $this->render('@KikwikPage/admin/page/update.html.twig', [
@@ -167,75 +167,6 @@ class AdminController
         return $this->redirectToRoute('kikwik_page_admin_page_list');
     }
 
-
-    public function pageTranslationAddBlock(Request $request, int $id): Response
-    {
-        $this->checkPermission();
-
-        $pageTranslation = $this->pageTranslationRepository->find($id);
-        if($pageTranslation)
-        {
-            $form = $this->formFactory->createBuilder()
-                ->add('component',BlockComponentChoiceType::class)
-                ->getForm();
-            $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid())
-            {
-                $componentName = $form->getData()['component'];
-                $component = $this->blockComponentProvider->getBlockComponent($componentName);
-                $block = new Block();
-                $block->setPageTranslation($pageTranslation);
-                $block->setComponent($componentName);
-                $block->setParameters($component->getDefaultValues());
-                $this->doctrine->getManager()->persist($block);
-                $this->doctrine->getManager()->flush();
-                $this->addFlash('success', 'Il blocco è stato aggiunto.');
-                return $this->redirectToRoute('kikwik_page_admin_block_update',['id'=>$block->getId()]);
-            }
-
-            return $this->render('@KikwikPage/admin/block/add.html.twig', [
-                'form' => $form->createView(),
-                'pageTranslation'=>$pageTranslation,
-            ]);
-        }
-        else
-        {
-            $this->addFlash('danger', 'Pagina non trovata.');
-        }
-        return $this->redirectToRoute('kikwik_page_admin_page_list');
-    }
-
-    public function blockUpdate(Request $request, int $id): Response
-    {
-        $this->checkPermission();
-
-        /** @var Block $block */
-        $block = $this->blockRepository->find($id);
-        if ($block)
-        {
-            $form = $this->formFactory->create(BlockFormType::class, $block);
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                /** @var Block $block */
-                $block = $form->getData();
-                $this->doctrine->getManager()->persist($block);
-                $this->doctrine->getManager()->flush();
-                $this->addFlash('success', 'Il blocco è stato modificato.');
-                return new RedirectResponse('/'.$block->getPageTranslation()->getSlug());
-            }
-
-            return $this->render('@KikwikPage/admin/block/update.html.twig', [
-                'form' => $form->createView(),
-                'block' => $block,
-            ]);
-        }
-        else
-        {
-            $this->addFlash('danger', 'Blocco non trovato.');
-        }
-
-        return $this->redirectToRoute('kikwik_page_admin_page_list');
-    }
 
 
     /**********************************/

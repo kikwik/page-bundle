@@ -1,13 +1,49 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+{% trans_default_domain 'kikwik_page' %}
+
 {% block body %}
-    <div class="card">
+    <div class="card m-3">
         <div class="card-header">
             Crea {% if parent %}pagina figlia di {{ parent }}{% else %}homepage{% endif %}
         </div>
         <div class="card-body">
-            {% include '@KikwikPage/admin/page/_form.html.twig' %}
-{#            {{ component('KikwikPage:PageFormLive', { form: form }) }}#}
+            {{ form_start(form, { 'attr': { 'novalidate': 'novalidate' } }) }}
+                {{ form_row(form.name) }}
+
+                <table class="table table-sm">
+                    <thead>
+                    <tr>
+                        <th>{{ 'locale' | trans }}</th>
+                        <th>{{ 'Title' | trans }}</th>
+                        <th>{{ 'Description' | trans }}</th>
+                        <th>{{ 'Enabled' | trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for translationForm in form.translations %}
+                        <tr>
+                            <td>{{ translationForm.vars.data.locale | upper }}</td>
+                            <td>
+                                {{ form_row(translationForm.title, {label: false}) }}
+                            </td>
+                            <td>
+                                {{ form_row(translationForm.description, {label: false}) }}
+                            </td>
+                            <td>
+                                {{ form_row(translationForm.isEnabled, {label: false}) }}
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+                <a href="{{ path('kikwik_page_admin_page_list') }}" class="btn btn-outline-secondary">{{ 'Back to list' | trans }}</a>
+                <button type="submit" class="btn btn-outline-primary">{{ 'Create page' | trans }}</button>
+            {{ form_end(form) }}
         </div>
     </div>
 

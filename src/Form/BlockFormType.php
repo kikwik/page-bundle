@@ -23,8 +23,9 @@ class BlockFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('position')
+            ->add('isEnabled',null,['label'=>'Block enabled'])
             ->add('component',BlockComponentChoiceType::class)
-            ->add('isEnabled')
             ->add('parameters', FormType::class, [
                 'compound' => true,
             ])
@@ -56,9 +57,7 @@ class BlockFormType extends AbstractType
                 foreach ($parametersForm->all() as $fieldName => $child) {
                     $parametersForm->remove($fieldName);
                 }
-                foreach ($blockComponent->getDefaultValues() as $field => $default) {
-                    $parametersForm->add($field);
-                }
+                $blockComponent->buildEditForm($parametersForm);
             }
         }
     }
@@ -67,6 +66,7 @@ class BlockFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Block::class,
+            'translation_domain' => 'kikwik_page',
         ]);
     }
 }

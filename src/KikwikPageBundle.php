@@ -28,7 +28,7 @@ class KikwikPageBundle extends AbstractBundle
                 ->scalarNode('admin_role')->defaultValue('ROLE_ADMIN_PAGE')->end()
                 ->scalarNode('default_locale')->defaultValue('%kernel.default_locale%')->end()
                 ->scalarNode('enabled_locales')->defaultValue('%kernel.enabled_locales%')->end()
-                ->booleanNode('enable_components')->defaultValue(true)->end()
+                ->booleanNode('enable_components')->defaultValue(false)->end()
             ->end()
         ;
     }

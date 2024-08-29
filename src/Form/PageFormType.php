@@ -15,7 +15,7 @@ class PageFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name',null,['label'=>'Internal name'])
             ->add('translations', CollectionType::class, [
                 'entry_type' => PageTranslationFormType::class,
                 'label'=>false,
@@ -35,6 +35,7 @@ class PageFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Page::class,
+            'translation_domain' => 'kikwik_page',
         ]);
     }
 

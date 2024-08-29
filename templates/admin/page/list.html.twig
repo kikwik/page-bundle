@@ -1,22 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 class="mb-5">
-        Elenco pagine
-    </h1>
+    <div class="m-3">
+        <h1 class="mb-5">
+            Elenco pagine
+        </h1>
 
 
-    {% if pages | length %}
-        <table class="table table-hover">
-            <thead>
+        {% if pages | length %}
+            <table class="table table-hover">
+                <thead>
                 <tr>
                     <th>Nome</th>
                     <th>Titolo</th>
                     <th>link</th>
                     <th>Azioni</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 {% for page in pages %}
                     <tr>
                         <td style="padding-left: {{ page.lvl }}rem;">
@@ -42,10 +43,12 @@
                     </tr>
 
                 {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_page_create') }}">Crea homepage</a>
-    {% endif %}
+                </tbody>
+            </table>
+        {% else %}
+            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_page_create') }}">Crea homepage</a>
+        {% endif %}
+    </div>
+
 
 {% endblock %}
