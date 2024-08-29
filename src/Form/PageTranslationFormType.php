@@ -4,10 +4,9 @@ namespace Kikwik\PageBundle\Form;
 
 use Kikwik\PageBundle\Entity\PageTranslation;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\UX\LiveComponent\Form\Type\LiveCollectionType;
 
 class PageTranslationFormType extends AbstractType
 {
@@ -17,9 +16,21 @@ class PageTranslationFormType extends AbstractType
             ->add('title')
             ->add('description')
             ->add('isEnabled')
-            ->add('blocks', CollectionType::class, [
+            ->add('blocks', LiveCollectionType::class, [
                 'entry_type'=>BlockFormType::class,
                 'label'=>false,
+                'button_delete_options' => [
+                    'label' => 'X',
+                    'attr' => [
+                        'class' => 'btn btn-outline-danger',
+                    ],
+                ],
+                'button_add_options' => [
+                    'label' => '+',
+                    'attr' => [
+                        'class' => 'btn btn-outline-primary',
+                    ],
+                ]
             ])
         ;
     }

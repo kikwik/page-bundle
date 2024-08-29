@@ -1,0 +1,66 @@
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+
+<div {{ attributes }}>
+
+   {{ form_start(form, { 'attr': { 'novalidate': 'novalidate' } }) }}
+
+        {{ form_row(form.name) }}
+        <h3>Traduzioni</h3>
+        <ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
+                {% for translationForm in form.translations %}
+                        <li class="nav-item" role="presentation">
+                                <button class="nav-link {% if loop.index == 1 %}active{% endif %}" data-bs-toggle="pill" data-bs-target="#pills-{{ translationForm.vars.data.locale }}" type="button" role="tab">{{ translationForm.vars.data.locale | upper }}</button>
+                        </li>
+                {% endfor %}
+        </ul>
+        <div class="tab-content p-3">
+                {% for translationForm in form.translations %}
+                        <div class="tab-pane fade {% if loop.index == 1 %}show active{% endif %}" id="pills-{{ translationForm.vars.data.locale }}" role="tabpanel" tabindex="{{ loop.index }}">
+                                <div class="row">
+                                        <div class="col">
+                                                {{ form_row(translationForm.title) }}
+                                        </div>
+                                        <div class="col">
+                                                {{ form_row(translationForm.isEnabled) }}
+                                        </div>
+                                </div>
+                                <div class="row">
+                                        <div class="col">
+                                                {{ form_row(translationForm.description) }}
+                                        </div>
+                                </div>
+                                <h3>Blocchi
+                                    {{ form_widget(translationForm.blocks.vars.button_add) }}
+                                </h3>
+                                {% for blockForm in translationForm.blocks %}
+                                        <div class="card mb-3">
+                                                <div class="card-header">
+                                                        Blocco {{ blockForm.vars.data.position }}
+                                                </div>
+                                                <div class="card-body">
+                                                        <div class="row">
+                                                                <div class="col">
+                                                                        {{ form_row(blockForm.component) }}
+                                                                        {{ form_row(blockForm.isEnabled) }}
+                                                                </div>
+                                                                <div class="col">
+                                                                        {{ form_row(blockForm.parameters) }}
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                <div class="card-footer">
+                                                    {{ form_row(blockForm.vars.button_delete) }}
+                                                </div>
+                                        </div>
+                                {% endfor %}
+
+
+                        </div>
+                {% endfor %}
+        </div>
+
+
+        <a href="{{ path('kikwik_page_admin_page_list') }}" class="btn btn-outline-secondary">Annulla</a>
+        <button type="submit" class="btn btn-outline-primary">Salva</button>
+   {{ form_end(form) }}
+</div>

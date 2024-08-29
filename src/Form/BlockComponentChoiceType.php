@@ -18,6 +18,7 @@ class BlockComponentChoiceType extends AbstractType
     {
         $resolver->setDefaults([
             'choices' => $this->blockComponentProvider->getBlockComponentChoices(),
+            'placeholder'=>'',
         ]);
     }
 

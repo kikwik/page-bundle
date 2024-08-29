@@ -1,4 +1,4 @@
-{% extends '@KikwikPage/admin/layout.htlm.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
     <div class="card">
@@ -7,6 +7,7 @@
         </div>
         <div class="card-body">
             {% include '@KikwikPage/admin/page/_form.html.twig' %}
+{#            {{ component('KikwikPage:PageFormLive', { form: form }) }}#}
         </div>
     </div>
 

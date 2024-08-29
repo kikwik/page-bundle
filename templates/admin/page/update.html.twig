@@ -1,4 +1,4 @@
-{% extends '@KikwikPage/admin/layout.htlm.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
 
@@ -7,7 +7,8 @@
             Modifica pagina {{ page }}
         </div>
         <div class="card-body">
-            {% include '@KikwikPage/admin/page/_form.html.twig' %}
+{#            {% include '@KikwikPage/admin/page/_form.html.twig' %}#}
+            {{ component('PageFormLive', { form: form, initialFormData: page }) }}
         </div>
     </div>
 

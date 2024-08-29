@@ -27,7 +27,6 @@ class PageFormType extends AbstractType
     {
         foreach ($view['translations']->children as $childView)
         {
-            dump($childView->vars['value']->getLocale());
             $childView->vars['label'] = $childView->vars['value']->getLocale();
         }
     }

@@ -5,22 +5,21 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
 
-        <!-- Kikwik\PageBundle\Repository\PageRepository -->
+        <!-- Repository\PageRepository -->
         <service id="kikwik_page.repository.page_repository" class="Kikwik\PageBundle\Repository\PageRepository">
             <tag name="doctrine.repository_service" />
             <argument type="service" id="doctrine"/>
         </service>
         <service id="Kikwik\PageBundle\Repository\PageRepository" alias="kikwik_page.repository.page_repository" public="true"/>
 
-
-        <!-- Kikwik\PageBundle\Repository\PageTranslationRepository -->
+        <!-- Repository\PageTranslationRepository -->
         <service id="kikwik_page.repository.page_translation_repository" class="Kikwik\PageBundle\Repository\PageTranslationRepository">
             <tag name="doctrine.repository_service" />
             <argument type="service" id="doctrine"/>
         </service>
         <service id="Kikwik\PageBundle\Repository\PageTranslationRepository" alias="kikwik_page.repository.page_translation_repository" public="true"/>
 
-        <!-- Kikwik\PageBundle\Repository\BlockRepository -->
+        <!-- Repository\BlockRepository -->
         <service id="kikwik_page.repository.block_repository" class="Kikwik\PageBundle\Repository\BlockRepository">
             <tag name="doctrine.repository_service" />
             <argument type="service" id="doctrine"/>
@@ -30,21 +29,21 @@
 
 
 
-        <!-- Kikwik\PageBundle\Routing\PageTranslationRouteProvider -->
+        <!-- Routing\PageTranslationRouteProvider -->
         <service id="kikwik_page.routing.page_translation_route_provider" class="Kikwik\PageBundle\Routing\PageTranslationRouteProvider">
             <tag name="routing.route_provider"/>
             <argument type="service" id="doctrine"/>
         </service>
 
 
-        <!-- Kikwik\PageBundle\Controller\PageController -->
+
+        <!-- Controller\PageController -->
         <service id="kikwik_page.controller.page_controller" class="Kikwik\PageBundle\Controller\PageController">
             <tag name="controller.service_arguments"/>
             <argument type="service" id="twig"/>
         </service>
 
-
-        <!-- \Kikwik\PageBundle\Controller\AdminController -->
+        <!-- Controller\AdminController -->
         <service id="kikwik_page.controller.admin_controller" class="Kikwik\PageBundle\Controller\AdminController">
             <tag name="controller.service_arguments"/>
             <argument type="service" id="twig"/>
@@ -59,27 +58,19 @@
             <argument type="service" id="security.authorization_checker"/>
         </service>
 
-        <!-- Kikwik\PageBundle\Twig\Components\AdminBar -->
-        <service id="kikwik_page.twig_components.admin_bar" class="Kikwik\PageBundle\Twig\Components\AdminBar">
-            <tag name="twig.component"/>
-            <argument type="service" id="request_stack"/>
-            <argument type="service" id="cmf_routing.router"/>
-            <argument type="service" id="security.authorization_checker"/>
-        </service>
-
-
-
+        <!-- Service\BlockComponentProvider -->
         <service id="kikwik_page.service.block_component_provider" class="Kikwik\PageBundle\Service\BlockComponentProvider">
             <argument type="service" id="service_container"/>
             <argument type="tagged_iterator" tag="twig.component"/>
         </service>
 
+        <!-- Form\BlockComponentChoiceType -->
         <service id="kikwik_page.form.block_component_choice_type" class="Kikwik\PageBundle\Form\BlockComponentChoiceType">
             <tag name="form.type"/>
             <argument type="service" id="kikwik_page.service.block_component_provider"/>
         </service>
 
-
+        <!-- Form\BlockFormType -->
         <service id="kikwik_page.form.block_form_type" class="Kikwik\PageBundle\Form\BlockFormType">
             <tag name="form.type"/>
             <argument type="service" id="kikwik_page.service.block_component_provider"/>
@@ -87,10 +78,6 @@
 
 
 
-        <service id="kikwik_page.twig_components.locale_switcher" class="Kikwik\PageBundle\Twig\Components\LocaleSwitcher">
-            <tag name="twig.component"/>
-            <argument type="service" id="request_stack"/>
-        </service>
 
     </services>
 </container>

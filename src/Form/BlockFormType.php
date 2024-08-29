@@ -38,9 +38,30 @@ class BlockFormType extends AbstractType
             }
 
             $component  = $this->blockComponentProvider->getBlockComponent($block->getComponent());
-            foreach ($component->getDefaultValues() as $field => $default)
+            if($component)
             {
-                $form->get('parameters')->add($field);
+                foreach ($component->getDefaultValues() as $field => $default)
+                {
+                    $form->get('parameters')->add($field);
+                }
+            }
+        });
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            $data = $event->getData();
+            $form = $event->getForm();
+
+            // Get the new component value
+            $component = $data['component'] ?? null;
+
+            if ($component) {
+                // Get the block component details
+                $blockComponent = $this->blockComponentProvider->getBlockComponent($component);
+                if($blockComponent) {
+                    foreach ($blockComponent->getDefaultValues() as $field => $default) {
+                        $form->get('parameters')->add($field);
+                    }
+                }
             }
         });
     }

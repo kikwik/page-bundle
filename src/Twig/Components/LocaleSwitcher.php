@@ -2,15 +2,21 @@
 
 namespace Kikwik\PageBundle\Twig\Components;
 
+use Kikwik\PageBundle\Block\BaseBlockComponent;
 use Kikwik\PageBundle\Entity\PageTranslation;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class LocaleSwitcher
+class LocaleSwitcher extends BaseBlockComponent
 {
     public function __construct(
         private RequestStack $requestStack,
     )
     {
+    }
+
+    public function getDefaultValues(): array
+    {
+        return [];
     }
 
     public function getPageTranslation(): ?PageTranslation

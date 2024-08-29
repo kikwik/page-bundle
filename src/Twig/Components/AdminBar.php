@@ -7,14 +7,11 @@ use Kikwik\PageBundle\Entity\PageTranslation;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
-#[AsTwigComponent]
 class AdminBar
 {
     public function __construct(
         private RequestStack                  $requestStack,
-        private UrlGeneratorInterface         $urlGenerator,
         private AuthorizationCheckerInterface $authorizationChecker,
         private string $adminRole
     )

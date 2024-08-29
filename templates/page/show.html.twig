@@ -1,15 +1,10 @@
-{% extends '@KikwikPage/page/layout.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block pageTitle %}{{ pageTranslation.title }}{% endblock %}
+{% block title %}{{ pageTranslation.title }}{% endblock %}
 
-{% block pageDescription %}{{ pageTranslation.description }}{% endblock %}
+{% block metaDescription %}{{ pageTranslation.description }}{% endblock %}
 
-{% block pageContent %}
-    <twig:KikwikPage:AdminBar/>
-
-    <twig:KikwikPage:LocaleSwitcher/>
-
-
+{% block body %}
     {% for block in pageTranslation.blocks %}
         <div class="kw-page-block" data-block-id="{{ block.id }}">
             {{ component(block.component, { block: block }) }}

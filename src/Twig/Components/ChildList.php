@@ -1,6 +1,6 @@
 <?php
 
-namespace Kikwik\PageBundle\Twig\Components\Block;
+namespace Kikwik\PageBundle\Twig\Components;
 
 use Kikwik\PageBundle\Block\BaseBlockComponent;
 use Kikwik\PageBundle\Entity\Page;

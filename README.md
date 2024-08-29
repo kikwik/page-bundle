@@ -40,6 +40,43 @@ kikwik_page_bundle_admin:
     prefix: '/admin/page'
 ```
 
+and create a PageFormLive component in `src/Twig/Components/PageFormLive.php`:
+
+```php
+namespace App\Twig\Components;
+
+use Kikwik\PageBundle\Entity\Page;
+use Kikwik\PageBundle\Form\PageFormType;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
+use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Symfony\UX\LiveComponent\LiveCollectionTrait;
+
+#[AsLiveComponent(template: '@KikwikPage/components/PageFormLive.html.twig')]
+final class PageFormLive
+{
+    public function __construct(
+        private FormFactoryInterface $formFactory,
+    )
+    {
+    }
+
+    use DefaultActionTrait;
+    use LiveCollectionTrait;
+
+    #[LiveProp]
+    public ?Page $initialFormData = null;
+
+    protected function instantiateForm(): FormInterface
+    {
+        return $this->formFactory->create(PageFormType::class, $this->initialFormData);
+    }
+}
+```
+
+
 ## Block
 
 A block renderer must be a TwigComponent that implements `Kikwik\PageBundle\Block\BlockComponentInterface`
