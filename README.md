@@ -86,6 +86,9 @@ You can extends `BaseBlockComponent`
 namespace App\Twig\Components;
 
 use Kikwik\PageBundle\Block\BaseBlockComponent;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent]
@@ -97,6 +100,16 @@ class Alert extends BaseBlockComponent
             'type'=>'success',
             'message'=>'Hello!',
         ];
+    }
+    
+    public function buildEditForm(FormInterface $form): void
+    {
+        $form
+            ->add('type', ChoiceType::class, [
+                'choices' => ['success' => 'success', 'info' => 'info', 'warning' => 'warning', 'danger' => 'danger'],
+            ])
+            ->add('message',TextareaType::class, [])
+        ;
     }
 }
 ```

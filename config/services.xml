@@ -50,9 +50,6 @@
             <argument type="service" id="cmf_routing.router"/>
             <argument type="service" id="doctrine"/>
             <argument type="service" id="kikwik_page.repository.page_repository"/>
-            <argument type="service" id="kikwik_page.repository.page_translation_repository"/>
-            <argument type="service" id="kikwik_page.repository.block_repository"/>
-            <argument type="service" id="kikwik_page.service.block_component_provider"/>
             <argument type="service" id="form.factory"/>
             <argument type="service" id="request_stack"/>
             <argument type="service" id="security.authorization_checker"/>

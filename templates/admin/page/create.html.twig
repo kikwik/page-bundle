@@ -6,7 +6,13 @@
 {% block body %}
     <div class="card m-3">
         <div class="card-header">
-            Crea {% if parent %}pagina figlia di {{ parent }}{% else %}homepage{% endif %}
+            {% if parent %}
+                {{ 'Add child page of' | trans }} {{ parent }}
+
+            {% else %}
+                {{ 'Create homepage' | trans }}
+            {% endif %}
+            <twig:KikwikPage:Flashes/>
         </div>
         <div class="card-body">
             {{ form_start(form, { 'attr': { 'novalidate': 'novalidate' } }) }}

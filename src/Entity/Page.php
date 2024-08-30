@@ -37,6 +37,10 @@ class Page
     #[Assert\NotBlank()]
     protected ?string $name = null;
 
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: false)]
+    #[Gedmo\Slug(fields: ['name'], updatable: false, unique: true)]
+    protected ?string $routeName = null;
+
     #[Gedmo\TreeLeft]
     #[ORM\Column(name: 'lft', type: Types::INTEGER)]
     protected ?int $lft = null;
@@ -129,6 +133,17 @@ class Page
     {
         $this->name = $name;
 
+        return $this;
+    }
+
+    public function getRouteName(): ?string
+    {
+        return $this->routeName;
+    }
+
+    public function setRouteName(?string $routeName): Page
+    {
+        $this->routeName = $routeName;
         return $this;
     }
 

@@ -1,10 +1,13 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'kikwik_page' %}
+
 {% block body %}
 
     <div class="card m-3">
         <div class="card-header">
-            Elimina pagina {{ page }}
+            {{ 'Delete page' | trans }} {{ page }}
+            <twig:KikwikPage:Flashes/>
         </div>
         <div class="card-body">
             <p>Verranno eliminate definitivamente le seguenti pagine:</p>
@@ -16,8 +19,8 @@
             {% endfor %}
 
             <form method="post" class="mt-3">
-                <a href="{{ path('kikwik_page_admin_page_list') }}" class="btn btn-outline-secondary">Annulla</a>
-                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Stai per eliminare definitivamente {{ (children | length) + 1 }} pagine dal sito!!!')">Elimina pagine</button>
+                <a href="{{ path('kikwik_page_admin_page_list') }}" class="btn btn-outline-secondary">{{ 'Back to list' | trans }}</a>
+                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Stai per eliminare definitivamente {{ (children | length) + 1 }} pagine dal sito!!!')">{{ 'Delete page' | trans }}</button>
             </form>
         </div>
 

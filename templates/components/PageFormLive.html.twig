@@ -7,7 +7,7 @@
    {{ form_start(form, { 'attr': { 'novalidate': 'novalidate' } }) }}
 
         {{ form_row(form.name) }}
-        <h3>Translations</h3>
+        <h3>{{ 'Translations' | trans }}</h3>
         <ul class="nav nav-pills nav-fill mb-3" id="pills-tab" role="tablist">
             {% for translationForm in form.translations %}
                 <li class="nav-item" role="presentation">
@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     {% if translationForm.blocks is defined %}
-                        <h3>Blocks</h3>
+                        <h3>{{ 'Blocks' | trans }}</h3>
                         {% for blockForm in translationForm.blocks %}
                             <div class="card mb-3">
                                 <div class="card-header">
@@ -67,7 +67,11 @@
             {% endfor %}
         </div>
 
+        <div class="d-none">
+            {{ form_rest(form) }}
+        </div>
 
+        <hr/>
         <a href="{{ path('kikwik_page_admin_page_list') }}" class="btn btn-outline-secondary">{{ 'Back to list' | trans }}</a>
         <button type="submit" class="btn btn-outline-primary">{{ 'Save page' | trans }}</button>
    {{ form_end(form) }}

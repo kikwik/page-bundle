@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'kikwik_page' %}
+
+
 {% block body %}
 
     <div class="card m-3">
         <div class="card-header">
-            Modifica pagina {{ page }}
+            {{ 'Edit page' | trans }} {{ page }}
+            <twig:KikwikPage:Flashes/>
         </div>
         <div class="card-body">
             {{ component('PageFormLive', { form: form, initialFormData: page }) }}

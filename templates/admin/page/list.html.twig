@@ -1,44 +1,50 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'kikwik_page' %}
+
+
 {% block body %}
     <div class="m-3">
         <h1 class="mb-5">
-            Elenco pagine
+            {{ 'Page admin' | trans }}
         </h1>
 
+        <twig:KikwikPage:Flashes/>
 
         {% if pages | length %}
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>Titolo</th>
-                    <th>link</th>
-                    <th>Azioni</th>
+                    <th>{{ 'Name' | trans }}</th>
+                    <th>{{ 'Title' | trans }}</th>
+                    <th>{{ 'Route name' | trans }}</th>
+                    <th>{{ 'Actions' | trans }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for page in pages %}
                     <tr>
-                        <td style="padding-left: {{ page.lvl }}rem;">
+                        <td style="padding-left: {{ page.lvl * 2 }}rem;">
                             {{ page.name }}
                         </td>
-                        <td>
+                        <td style="padding-left: {{ page.lvl * 2 }}rem;">
                             {% for locale in enabledLocales %}
-                                {{ locale | upper }}: {{ page.translation(locale).title }}<br/>
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% for locale in enabledLocales %}
-                                {% if page.translation(locale).id %}
-                                    <a class="btn btn-sm btn-outline-primary" href="/{{ page.translation(locale).slug }}">{{ locale | upper }}</a>
+                                {% if page.translation(locale).isEnabled %}
+                                    {{ locale | upper }}: {{ page.translation(locale).title }}<br/>
                                 {% endif %}
                             {% endfor %}
                         </td>
                         <td>
-                            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_page_create',{parentId: page.id}) }}" title="Aggiungi pagina figlia"><twig:ux:icon name="bi:plus-lg" height="16"/></a>
-                            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_page_update',{id: page.id}) }}" title="Modifica pagina"><twig:ux:icon name="bi:pencil" height="16"/></a>
-                            <a class="btn btn-sm btn-outline-danger" href="{{ path('kikwik_page_admin_page_delete',{id: page.id}) }}" title="Elimina pagina"><twig:ux:icon name="bi:trash" height="16"/></a>
+                            {% for locale in enabledLocales %}
+                                {% if page.translation(locale).isEnabled %}
+                                    <a class="btn btn-sm btn-outline-primary" href="/{{ page.translation(locale).slug }}">{{ page.routeName }}_{{ locale }}</a><br/>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_page_create',{parentId: page.id}) }}" title="{{ 'Add child page of' | trans }}"><twig:ux:icon name="bi:plus-lg" height="16"/></a>
+                            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_page_update',{id: page.id}) }}" title="{{ 'Edit page' | trans }}"><twig:ux:icon name="bi:pencil" height="16"/></a>
+                            <a class="btn btn-sm btn-outline-danger" href="{{ path('kikwik_page_admin_page_delete',{id: page.id}) }}" title="{{ 'Delete page' | trans }}"><twig:ux:icon name="bi:trash" height="16"/></a>
                         </td>
                     </tr>
 
@@ -46,7 +52,7 @@
                 </tbody>
             </table>
         {% else %}
-            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_page_create') }}">Crea homepage</a>
+            <a class="btn btn-sm btn-outline-primary" href="{{ path('kikwik_page_admin_page_create') }}">{{ 'Create homepage' | trans }}</a>
         {% endif %}
     </div>
 

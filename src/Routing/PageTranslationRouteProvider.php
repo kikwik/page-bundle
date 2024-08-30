@@ -4,6 +4,7 @@ namespace Kikwik\PageBundle\Routing;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManagerInterface;
+use Kikwik\PageBundle\Entity\Page;
 use Kikwik\PageBundle\Entity\PageTranslation;
 use Symfony\Cmf\Component\Routing\RouteProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +37,7 @@ class PageTranslationRouteProvider implements RouteProviderInterface
                 'pageTranslation' => $pageTranslation
             ]);
 
-            $collection->add('kikwik_page_translation_' . $pageTranslation->getId(), $route);
+            $collection->add($pageTranslation->getPage()->getRouteName() . '_' . $pageTranslation->getLocale(), $route);
         }
 
         return $collection;
@@ -44,8 +45,22 @@ class PageTranslationRouteProvider implements RouteProviderInterface
 
     public function getRouteByName(string $name): SymfonyRoute
     {
-        // Retrieve the PageTranslation by some criteria
-        $pageTranslation = $this->entityManager->getRepository(PageTranslation::class)->find($name);
+        $pageTranslation = null;
+
+        $lastUnderscorePosition = strrpos($name, '_');
+        if ($lastUnderscorePosition !== false)
+        {
+            $routeName = substr($name, 0, $lastUnderscorePosition);
+            $locale = substr($name, $lastUnderscorePosition + 1);
+
+            $pageTranslation = $this->entityManager->getRepository(PageTranslation::class)
+                ->createQueryBuilder('pt')
+                ->leftJoin('pt.page', 'p')
+                ->andWhere('pt.locale = :locale')->setParameter('locale', $locale)
+                ->andWhere('p.routeName = :routeName')->setParameter('routeName', $routeName)
+                ->getQuery()
+                ->getOneOrNullResult();
+        }
 
         if (!$pageTranslation) {
             throw new RouteNotFoundException(sprintf('Route "%s" not found', $name));
@@ -71,7 +86,6 @@ class PageTranslationRouteProvider implements RouteProviderInterface
                 }
             }
         }
-
 
         return $collection;
     }

@@ -3,15 +3,9 @@
 namespace Kikwik\PageBundle\Controller;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Kikwik\PageBundle\Entity\Block;
 use Kikwik\PageBundle\Entity\Page;
-use Kikwik\PageBundle\Form\BlockComponentChoiceType;
-use Kikwik\PageBundle\Form\BlockFormType;
 use Kikwik\PageBundle\Form\PageFormType;
-use Kikwik\PageBundle\Repository\BlockRepository;
 use Kikwik\PageBundle\Repository\PageRepository;
-use Kikwik\PageBundle\Repository\PageTranslationRepository;
-use Kikwik\PageBundle\Service\BlockComponentProvider;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,9 +23,6 @@ class AdminController
         private UrlGeneratorInterface         $urlGenerator,
         private Registry                      $doctrine,
         private PageRepository                $pageRepository,
-        private PageTranslationRepository     $pageTranslationRepository,
-        private BlockRepository               $blockRepository,
-        private BlockComponentProvider        $blockComponentProvider,
         private FormFactory                   $formFactory,
         private RequestStack                  $requestStack,
         private AuthorizationCheckerInterface $authorizationChecker,
@@ -41,7 +32,7 @@ class AdminController
     {
     }
 
-    public function pageList(string $_locale): Response
+    public function pageList(): Response
     {
         $this->checkPermission();
 
@@ -53,7 +44,6 @@ class AdminController
 
         return $this->render('@KikwikPage/admin/page/list.html.twig', [
             'pages' => $pages,
-            'selectedLocale' => $_locale,
             'enabledLocales' => $this->enabledLocales,
         ]);
     }

@@ -5,6 +5,7 @@
 {% block metaDescription %}{{ pageTranslation.description }}{% endblock %}
 
 {% block body %}
+    <twig:KikwikPage:AdminBar/>
     {% for block in pageTranslation.blocks %}
         {% if block.isEnabled %}
             <div class="kw-page-block" data-block-id="{{ block.id }}">
