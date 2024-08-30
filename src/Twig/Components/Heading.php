@@ -10,13 +10,6 @@ use Symfony\Component\Form\FormInterface;
 
 class Heading extends BaseBlockComponent
 {
-    public function getDefaultValues(): array
-    {
-        return [
-            'tag'=>'h1',
-            'title'=>'Title',
-        ];
-    }
 
     public function buildEditForm(FormInterface $form): void
     {
@@ -26,6 +19,5 @@ class Heading extends BaseBlockComponent
             ])
             ->add('title',TextType::class);
     }
-
 
 }

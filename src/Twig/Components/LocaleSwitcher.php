@@ -15,7 +15,6 @@ class LocaleSwitcher
     {
     }
 
-
     public function getPageTranslation(): ?PageTranslation
     {
         return $this->requestStack->getCurrentRequest()->get('pageTranslation');
@@ -33,7 +32,11 @@ class LocaleSwitcher
         /** @var PageTranslation $translation */
         foreach($page->getTranslations() as $translation)
         {
-            $result[$translation->getLocale()] = '/'.$translation->getSlug();
+            dump($translation);
+            if($translation->getId() && $translation->isEnabled())
+            {
+                $result[$translation->getLocale()] = '/'.$translation->getSlug();
+            }
         }
         return $result;
     }

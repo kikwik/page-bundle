@@ -8,19 +8,10 @@ use Symfony\Component\Form\FormInterface;
 
 class Paragraph extends BaseBlockComponent
 {
-    public function getDefaultValues(): array
-    {
-        return [
-            'content'=>'text placeholder',
-        ];
-    }
-
     public function buildEditForm(FormInterface $form): void
     {
         $form
             ->add('content', TextareaType::class, [])
             ;
     }
-
-
 }

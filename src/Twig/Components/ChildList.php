@@ -16,15 +16,9 @@ class ChildList extends BaseBlockComponent
     {
     }
 
-    public function getDefaultValues(): array
-    {
-        return [];
-    }
-
     public function buildEditForm(FormInterface $form): void
     {
     }
-
 
     /**
      * @return PageTranslation[]

@@ -4,6 +4,39 @@
 
 <div {{ attributes }}>
 
+    {# Controllo se ci sono errori nel form principale o in qualsiasi sottoform e i loro campi #}
+    {% set hasErrors = (form.vars.errors|length > 0) %}
+
+    {% for translationForm in form.translations %}
+        {% if translationForm.vars.errors|length > 0 %}
+            {% set hasErrors = true %}
+        {% endif %}
+        {% for field in translationForm %}
+            {% if field.vars.errors|length > 0 %}
+                {% set hasErrors = true %}
+            {% endif %}
+        {% endfor %}
+
+        {% for blockForm in translationForm.blocks %}
+            {% if blockForm.vars.errors|length > 0 %}
+                {% set hasErrors = true %}
+            {% endif %}
+            {% for field in blockForm %}
+                {% if field.vars.errors|length > 0 %}
+                    {% set hasErrors = true %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+
+    {# Visualizzazione avviso se ci sono errori #}
+    {% if hasErrors %}
+        <div class="alert alert-danger" role="alert">
+            {{ 'There were errors in the form. Please correct them and try again.' | trans }}
+        </div>
+    {% endif %}
+
+    
    {{ form_start(form, { 'attr': { 'novalidate': 'novalidate' } }) }}
 
         {{ form_row(form.name) }}
