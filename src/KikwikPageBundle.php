@@ -28,7 +28,6 @@ class KikwikPageBundle extends AbstractBundle
                 ->scalarNode('admin_role')->defaultValue('ROLE_ADMIN_PAGE')->end()
                 ->scalarNode('default_locale')->defaultValue('%kernel.default_locale%')->end()
                 ->scalarNode('enabled_locales')->defaultValue('%kernel.enabled_locales%')->end()
-                ->booleanNode('enable_components')->defaultValue(false)->end()
             ->end()
         ;
     }
@@ -37,18 +36,11 @@ class KikwikPageBundle extends AbstractBundle
     {
         $container->import('../config/services.xml');
 
-        if($config['enable_components'])
-        {
-            $container->import('../config/services_block.xml');
-
-        }
-
         $container->services()
             ->get('kikwik_page.controller.admin_controller')
             ->arg('$enabledLocales', $config['enabled_locales'])
             ->arg('$adminRole', $config['admin_role'])
         ;
-
 
         $container->services()
             ->get('kikwik_page.twig_components.admin_bar')

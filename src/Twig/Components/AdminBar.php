@@ -5,7 +5,6 @@ namespace Kikwik\PageBundle\Twig\Components;
 use Kikwik\PageBundle\Entity\Page;
 use Kikwik\PageBundle\Entity\PageTranslation;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class AdminBar
@@ -13,7 +12,7 @@ class AdminBar
     public function __construct(
         private RequestStack                  $requestStack,
         private AuthorizationCheckerInterface $authorizationChecker,
-        private string $adminRole
+        private string                        $adminRole
     )
     {
     }

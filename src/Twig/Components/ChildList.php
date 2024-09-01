@@ -2,22 +2,21 @@
 
 namespace Kikwik\PageBundle\Twig\Components;
 
-use Kikwik\PageBundle\Block\BaseBlockComponent;
 use Kikwik\PageBundle\Entity\Page;
 use Kikwik\PageBundle\Entity\PageTranslation;
-use Kikwik\PageBundle\Repository\PageTranslationRepository;
-use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-class ChildList extends BaseBlockComponent
+class ChildList
 {
     public function __construct(
-        private PageTranslationRepository $pageTranslationRepository,
+        private RequestStack $requestStack,
     )
     {
     }
 
-    public function buildEditForm(FormInterface $form): void
+    public function getPageTranslation(): ?PageTranslation
     {
+        return $this->requestStack->getCurrentRequest()->get('pageTranslation');
     }
 
     /**
@@ -26,16 +25,21 @@ class ChildList extends BaseBlockComponent
     public function getPageChildren(): array
     {
         $result = [];
-        $page = $this->block->getPageTranslation()->getPage();
-        $locale = $this->block->getPageTranslation()->getLocale();
-        /** @var Page $childPage */
-        foreach($page->getChildren() as $childPage)
+        $pageTranslation = $this->getPageTranslation();
+        if($pageTranslation)
         {
-            if($childPage->hasTranslation($locale))
+            $page = $pageTranslation->getPage();
+            $locale = $this->getPageTranslation()->getLocale();
+            /** @var Page $childPage */
+            foreach($page->getChildren() as $childPage)
             {
-                $result[] = $childPage->getTranslation($locale);
+                if($childPage->hasTranslation($locale))
+                {
+                    $result[] = $childPage->getTranslation($locale);
+                }
             }
         }
+
         return $result;
     }
 }

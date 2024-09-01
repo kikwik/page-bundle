@@ -78,6 +78,11 @@ class PageTranslation
         $this->blocks = new ArrayCollection();
     }
 
+    public function getUrl(): string
+    {
+        return '/'.$this->slug;
+    }
+
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function updateSlug()

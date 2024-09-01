@@ -1,9 +1,21 @@
 {% if this.pageTranslation %}
-    <ul class="kw-page-locale-switcher">
-        {% for locale,url in this.urls %}
-            <li {% if this.currentLocale == locale %}class="active"{% endif %}>
-                <a href="{{ url }}">{{ locale }}</a>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="dropdown kw-page-locale-switcher">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="localeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            {% if this.currentLocale %}
+                {{ this.currentLocale | upper }} <!-- Mostra la lingua corrente come testo del bottone -->
+            {% else %}
+                Select Language
+            {% endif %}
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="localeDropdown">
+            {% for locale, url in this.urls %}
+                <li>
+                    <a class="dropdown-item {% if this.currentLocale == locale %}active{% endif %}" href="{{ url }}">
+                        {{ locale | upper }} <!-- Visualizza le lingue in maiuscolo -->
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endif %}
+

@@ -3,6 +3,8 @@
 namespace Kikwik\PageBundle\Block;
 
 use Kikwik\PageBundle\Entity\Block;
+use Kikwik\PageBundle\Entity\Page;
+use Kikwik\PageBundle\Entity\PageTranslation;
 
 abstract class BaseBlockComponent implements BlockComponentInterface
 {
@@ -29,6 +31,16 @@ abstract class BaseBlockComponent implements BlockComponentInterface
     public function setBlock(Block $block): void
     {
         $this->block = $block;
+    }
+
+    public function getPageTranslation(): PageTranslation
+    {
+        return $this->block->getPageTranslation();
+    }
+
+    public function getPage(): Page
+    {
+        return $this->block->getPageTranslation()->getPage();
     }
 
     public function get(string $parameterKey)

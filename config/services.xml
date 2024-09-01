@@ -88,5 +88,17 @@
             <argument type="service" id="request_stack"/>
         </service>
 
+        <!-- Twig\Components\Breadcrumbs -->
+        <service id="kikwik_page.twig_components.breadcrumbs" class="Kikwik\PageBundle\Twig\Components\Breadcrumbs">
+            <tag name="twig.component"/>
+            <argument type="service" id="request_stack"/>
+        </service>
+
+        <!-- Twig\Components\ChildList -->
+        <service id="kikwik_page.twig_components_block.child_list" class="Kikwik\PageBundle\Twig\Components\ChildList">
+            <tag name="twig.component"/>
+            <argument type="service" id="request_stack"/>
+        </service>
+
     </services>
 </container>
