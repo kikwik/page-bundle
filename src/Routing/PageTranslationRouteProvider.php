@@ -25,19 +25,45 @@ class PageTranslationRouteProvider implements RouteProviderInterface
     {
         $collection = new RouteCollection();
 
-        // Assuming slug is extracted from the request
+        // Ottieni lo slug dalla richiesta
         $slug = $request->getPathInfo();
-        $slug = ltrim($slug, '/');
+        $slug = trim($slug, '/');
 
-        $pageTranslation = $this->entityManager->getRepository(PageTranslation::class)->findOneBy(['slug' => $slug]);
+        // Trova la traduzione della pagina con lo slug completo
+        $pageTranslation = $this->entityManager->getRepository(PageTranslation::class)
+            ->findOneBy(['slug' => $slug]);
 
-        if ($pageTranslation) {
-            $route = new Route($pageTranslation->getSlug(), [
+        // Se non è trovata, cerca per slug parziali
+        if (!$pageTranslation)
+        {
+            $slugParts = explode('/', $slug);
+            while (count($slugParts) > 1)
+            {
+                array_pop($slugParts);
+                $partialSlug = implode('/', $slugParts);
+                $pageTranslation = $this->entityManager->getRepository(PageTranslation::class)
+                    ->findOneBy(['slug' => $partialSlug]);
+                if ($pageTranslation)
+                {
+                    break;
+                }
+            }
+        }
+
+        if ($pageTranslation)
+        {
+            $remainingSlug = str_replace($pageTranslation->getSlug(), '', $slug);
+            $additionalParameters = array_filter(explode('/', $remainingSlug));
+
+            $route = new Route($pageTranslation->getSlug().'/{extraSlug}', [
                 '_controller' => 'kikwik_page.controller.page_controller::show',
-                'pageTranslation' => $pageTranslation
+                'pageTranslation' => $pageTranslation,
+                'extraSlug' => implode('/', $additionalParameters), // Converti in stringa per il routing
+            ], [
+                'extraSlug' => '.*', // Pattern per matchare i parametri addizionali
             ]);
 
-            $collection->add($pageTranslation->getPage()->getRouteName() . '_' . $pageTranslation->getLocale(), $route);
+            $collection->add($pageTranslation->getPage()->getRouteName().'_'.$pageTranslation->getLocale(), $route);
         }
 
         return $collection;

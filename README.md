@@ -1,5 +1,5 @@
 Kikwik/PageBundle
-==================================
+=================
 
 Manage pages for symfony 6.4+
 
@@ -80,7 +80,9 @@ final class PageFormLive
 ## Block
 
 A block renderer must be a TwigComponent that implements `Kikwik\PageBundle\Block\BlockComponentInterface`
-You can extends `BaseBlockComponent`
+You can extend `BaseBlockComponent` and use `$this->getBlock()` to retrieve the Block entity and `$this->get('paramName')`
+to get the parameter value.
+The `buildEditForm` will be used in admin to create the form that will edit parameters 
 
 ```php
 namespace App\Twig\Components;
@@ -111,4 +113,45 @@ class Alert extends BaseBlockComponent
 <div class="alert alert-{{ this.get('type') | default('success') }}">
     {{ this.get('message') | default('default message') }}
 </div>
+```
+
+## Child pages
+
+Page rendering will be handled by the internal controller `Kikwik\PageBundle\Controller\PageController`,
+If a URL that partially matches a page contains extra slug parts, an event will be triggered, 
+and you can set a Response to display a different template. 
+If your listener does not set the response, a 404 error will be thrown.
+
+```php
+namespace App\EventListener;
+
+use Kikwik\PageBundle\Event\PageExtraSlugEvent;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
+
+#[AsEventListener(event: PageExtraSlugEvent::NAME, method: 'onPageExtraSlug')]
+class PageExtraSlugListener
+{
+
+    public function __construct(
+        private Environment $twig,
+    )
+    {
+    }
+
+    public function onPageExtraSlug(PageExtraSlugEvent $event)
+    {
+        $pageTranslation = $event->getPageTranslation();
+        $extraSlug = $event->getExtraSlug();
+        
+        if($extraSlug == 'some string that matches')
+        {
+            $response = new Response($this->twig->render('template/page/childPage.html.twig', [
+                    'parentPageTranslation' => $pageTranslation,
+                ]));
+            $event->setResponse($response);
+        }
+    }
+}
 ```

@@ -32,7 +32,6 @@ class LocaleSwitcher
         /** @var PageTranslation $translation */
         foreach($page->getTranslations() as $translation)
         {
-            dump($translation);
             if($translation->getId() && $translation->isEnabled())
             {
                 $result[$translation->getLocale()] = '/'.$translation->getSlug();
