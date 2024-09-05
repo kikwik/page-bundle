@@ -9,5 +9,4 @@ use Kikwik\PageBundle\Model\BlockInterface;
 #[ORM\Table(name: 'kw_page__block')]
 class Block extends AbstractBlock implements BlockInterface
 {
-
 }

@@ -2,7 +2,7 @@
 
 namespace Kikwik\PageBundle\Event;
 
-use Kikwik\PageBundle\Entity\PageTranslation;
+use Kikwik\PageBundle\Model\PageTranslationInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\EventDispatcher\Event;
 
@@ -13,12 +13,12 @@ class PageExtraSlugEvent extends Event
     private ?Response $response = null;
 
     public function __construct(
-        private PageTranslation $pageTranslation,
+        private PageTranslationInterface $pageTranslation,
         private string $extraSlug
     ) {
     }
 
-    public function getPageTranslation(): PageTranslation
+    public function getPageTranslation(): PageTranslationInterface
     {
         return $this->pageTranslation;
     }

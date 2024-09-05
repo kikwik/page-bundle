@@ -2,7 +2,7 @@
 
 namespace Kikwik\PageBundle\Form;
 
-use Kikwik\PageBundle\Entity\Page;
+use Kikwik\PageBundle\Model\PageInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,7 +34,7 @@ class PageFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Page::class,
+            'data_class' => PageInterface::class,
             'translation_domain' => 'kikwik_page',
         ]);
     }

@@ -2,9 +2,9 @@
 
 namespace Kikwik\PageBundle\Block;
 
-use Kikwik\PageBundle\Entity\Block;
-use Kikwik\PageBundle\Entity\Page;
-use Kikwik\PageBundle\Entity\PageTranslation;
+use Kikwik\PageBundle\Model\BlockInterface;
+use Kikwik\PageBundle\Model\PageInterface;
+use Kikwik\PageBundle\Model\PageTranslationInterface;
 
 abstract class BaseBlockComponent implements BlockComponentInterface
 {
@@ -21,24 +21,24 @@ abstract class BaseBlockComponent implements BlockComponentInterface
         return $this->getComponentName();
     }
 
-    protected ?Block $block = null;
+    protected ?BlockInterface $block = null;
 
-    public function getBlock(): Block
+    public function getBlock(): BlockInterface
     {
         return $this->block;
     }
 
-    public function setBlock(Block $block): void
+    public function setBlock(BlockInterface $block): void
     {
         $this->block = $block;
     }
 
-    public function getPageTranslation(): PageTranslation
+    public function getPageTranslation(): PageTranslationInterface
     {
         return $this->block->getPageTranslation();
     }
 
-    public function getPage(): Page
+    public function getPage(): PageInterface
     {
         return $this->block->getPageTranslation()->getPage();
     }

@@ -2,7 +2,7 @@
 
 namespace Kikwik\PageBundle\Form;
 
-use Kikwik\PageBundle\Entity\PageTranslation;
+use Kikwik\PageBundle\Model\PageTranslationInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -26,7 +26,7 @@ class PageTranslationFormType extends AbstractType
             $data = $event->getData();
 
             // Check if the entity is new (i.e., has no ID yet)
-            if ($data instanceof PageTranslation && $data->getId() !== null) {
+            if ($data instanceof PageTranslationInterface && $data->getId() !== null) {
                 $form->add('blocks', LiveCollectionType::class, [
                     'entry_type' => BlockFormType::class,
                     'label' => false,
@@ -50,7 +50,7 @@ class PageTranslationFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => PageTranslation::class,
+            'data_class' => PageTranslationInterface::class,
             'translation_domain' => 'kikwik_page',
         ]);
     }

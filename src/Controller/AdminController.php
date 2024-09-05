@@ -3,7 +3,6 @@
 namespace Kikwik\PageBundle\Controller;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Kikwik\PageBundle\Entity\Page;
 use Kikwik\PageBundle\Form\PageFormType;
 use Kikwik\PageBundle\Repository\PageRepository;
 use Symfony\Component\Form\FormFactory;
@@ -28,6 +27,7 @@ class AdminController
         private AuthorizationCheckerInterface $authorizationChecker,
         private array                         $enabledLocales,
         private string                        $adminRole,
+        private string                        $pageClass,
     )
     {
     }
@@ -52,7 +52,7 @@ class AdminController
     {
         $this->checkPermission();
 
-        $page = new Page();
+        $page = new $this->pageClass();
         $parent = null;
 
         if($parentId)

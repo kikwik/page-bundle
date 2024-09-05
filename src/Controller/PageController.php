@@ -2,8 +2,8 @@
 
 namespace Kikwik\PageBundle\Controller;
 
-use Kikwik\PageBundle\Entity\PageTranslation;
 use Kikwik\PageBundle\Event\PageExtraSlugEvent;
+use Kikwik\PageBundle\Model\PageTranslationInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +19,7 @@ class PageController
     {
     }
 
-    public function show(Request $request, PageTranslation $pageTranslation, string $extraSlug = ''): Response
+    public function show(Request $request, PageTranslationInterface $pageTranslation, string $extraSlug = ''): Response
     {
         $request->setLocale($pageTranslation->getLocale());
 

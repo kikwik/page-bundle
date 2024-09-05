@@ -5,16 +5,16 @@ namespace Kikwik\PageBundle\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
-use Kikwik\PageBundle\Entity\Page;
+use Kikwik\PageBundle\Model\PageInterface;
 
 /**
- * @extends ServiceEntityRepository<Page>
+ * @extends ServiceEntityRepository<PageInterface>
  */
 class PageRepository extends NestedTreeRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry->getManager(), $registry->getManager()->getClassMetadata(Page::class));
+        parent::__construct($registry->getManager(), $registry->getManager()->getClassMetadata(PageInterface::class));
     }
 
 }

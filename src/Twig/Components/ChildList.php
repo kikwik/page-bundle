@@ -2,8 +2,8 @@
 
 namespace Kikwik\PageBundle\Twig\Components;
 
-use Kikwik\PageBundle\Entity\Page;
-use Kikwik\PageBundle\Entity\PageTranslation;
+use Kikwik\PageBundle\Model\PageInterface;
+use Kikwik\PageBundle\Model\PageTranslationInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ChildList
@@ -14,13 +14,13 @@ class ChildList
     {
     }
 
-    public function getPageTranslation(): ?PageTranslation
+    public function getPageTranslation(): ?PageTranslationInterface
     {
         return $this->requestStack->getCurrentRequest()->get('pageTranslation');
     }
 
     /**
-     * @return PageTranslation[]
+     * @return PageTranslationInterface[]
      */
     public function getPageChildren(): array
     {
@@ -30,7 +30,7 @@ class ChildList
         {
             $page = $pageTranslation->getPage();
             $locale = $this->getPageTranslation()->getLocale();
-            /** @var Page $childPage */
+            /** @var PageInterface $childPage */
             foreach($page->getChildren() as $childPage)
             {
                 if($childPage->hasTranslation($locale))

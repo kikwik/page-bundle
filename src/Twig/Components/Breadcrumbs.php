@@ -2,7 +2,7 @@
 
 namespace Kikwik\PageBundle\Twig\Components;
 
-use Kikwik\PageBundle\Entity\PageTranslation;
+use Kikwik\PageBundle\Model\PageTranslationInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class Breadcrumbs
@@ -15,7 +15,7 @@ class Breadcrumbs
     {
     }
 
-    public function getPageTranslation(): ?PageTranslation
+    public function getPageTranslation(): ?PageTranslationInterface
     {
         return $this->requestStack->getCurrentRequest()->get('pageTranslation');
     }

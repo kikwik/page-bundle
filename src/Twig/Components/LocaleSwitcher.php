@@ -2,7 +2,7 @@
 
 namespace Kikwik\PageBundle\Twig\Components;
 
-use Kikwik\PageBundle\Entity\PageTranslation;
+use Kikwik\PageBundle\Model\PageTranslationInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class LocaleSwitcher
@@ -13,7 +13,7 @@ class LocaleSwitcher
     {
     }
 
-    public function getPageTranslation(): ?PageTranslation
+    public function getPageTranslation(): ?PageTranslationInterface
     {
         return $this->requestStack->getCurrentRequest()->get('pageTranslation');
     }
@@ -27,7 +27,7 @@ class LocaleSwitcher
     {
         $result = [];
         $page = $this->getPageTranslation()->getPage();
-        /** @var PageTranslation $translation */
+        /** @var PageTranslationInterface $translation */
         foreach($page->getTranslations() as $translation)
         {
             if($translation->getId() && $translation->isEnabled())
