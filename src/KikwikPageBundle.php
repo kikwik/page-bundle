@@ -16,6 +16,7 @@ class KikwikPageBundle extends AbstractBundle
 
     public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
     {
+        $container->import('../config/packages/doctrine.yaml');
         $container->import('../config/packages/cmf_routing.yaml');
         $container->import('../config/packages/stof_doctrine_extensions.yaml');
         $container->import('../config/packages/twig_component.yaml');

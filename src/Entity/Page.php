@@ -11,6 +11,8 @@ use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\IpTraceable\Traits\IpTraceableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Kikwik\PageBundle\Model\PageInterface;
+use Kikwik\PageBundle\Model\PageTranslationInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -18,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Table(name: 'kw_page__page')]
 #[UniqueEntity(fields: ['name'])]
 #[Gedmo\Tree(type: 'nested')]
-class Page
+class Page implements PageInterface
 {
     use TimestampableEntity;
     use BlameableEntity;
@@ -54,23 +56,23 @@ class Page
     protected ?int $rgt = null;
 
     #[Gedmo\TreeRoot]
-    #[ORM\ManyToOne(targetEntity: Page::class)]
+    #[ORM\ManyToOne(targetEntity: PageInterface::class)]
     #[ORM\JoinColumn(name: 'tree_root', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    protected ?Page $root = null;
+    protected ?PageInterface $root = null;
 
     #[Gedmo\TreeParent]
-    #[ORM\ManyToOne(targetEntity: Page::class, inversedBy: 'children')]
+    #[ORM\ManyToOne(targetEntity: PageInterface::class, inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    protected ?Page $parent = null;
+    protected ?PageInterface $parent = null;
 
-    #[ORM\OneToMany(targetEntity: Page::class, mappedBy: 'parent')]
+    #[ORM\OneToMany(targetEntity: PageInterface::class, mappedBy: 'parent')]
     #[ORM\OrderBy(['lft' => 'ASC'])]
     protected Collection $children;
 
     /**
-     * @var Collection<int, PageTranslation>
+     * @var Collection<int, PageTranslationInterface>
      */
-    #[ORM\OneToMany(targetEntity: PageTranslation::class, mappedBy: 'page', cascade: ['persist','remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: PageTranslationInterface::class, mappedBy: 'page', cascade: ['persist','remove'], orphanRemoval: true)]
     #[Assert\Valid]
     protected Collection $translations;
 
@@ -99,7 +101,7 @@ class Page
         return false;
     }
 
-    public function getTranslation(string $locale): ?PageTranslation
+    public function getTranslation(string $locale): ?PageTranslationInterface
     {
         foreach($this->translations as $translation) {
             if($translation->getLocale() === $locale) {
@@ -108,7 +110,7 @@ class Page
         }
 
         $parentTranslation = $this->getParent()?->getTranslation($locale);
-        $newTranslation = new PageTranslation();
+        $newTranslation = new PageTranslation(); // TODO: questo non va bene, dannazione!
         $newTranslation->setLocale($locale);
         $newTranslation->setParent($parentTranslation);
         $this->addTranslation($newTranslation);
@@ -129,7 +131,7 @@ class Page
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): PageInterface
     {
         $this->name = $name;
 
@@ -141,7 +143,7 @@ class Page
         return $this->routeName;
     }
 
-    public function setRouteName(?string $routeName): Page
+    public function setRouteName(?string $routeName): PageInterface
     {
         $this->routeName = $routeName;
         return $this;
@@ -152,7 +154,7 @@ class Page
         return $this->lft;
     }
 
-    public function setLft(?int $lft): static
+    public function setLft(?int $lft): PageInterface
     {
         $this->lft = $lft;
 
@@ -164,7 +166,7 @@ class Page
         return $this->lvl;
     }
 
-    public function setLvl(?int $lvl): static
+    public function setLvl(?int $lvl): PageInterface
     {
         $this->lvl = $lvl;
 
@@ -176,31 +178,31 @@ class Page
         return $this->rgt;
     }
 
-    public function setRgt(?int $rgt): static
+    public function setRgt(?int $rgt): PageInterface
     {
         $this->rgt = $rgt;
 
         return $this;
     }
 
-    public function getRoot(): ?Page
+    public function getRoot(): ?PageInterface
     {
         return $this->root;
     }
 
-    public function setRoot(?Page $root): static
+    public function setRoot(?PageInterface $root): PageInterface
     {
         $this->root = $root;
 
         return $this;
     }
 
-    public function getParent(): ?Page
+    public function getParent(): ?PageInterface
     {
         return $this->parent;
     }
 
-    public function setParent(?Page $parent): static
+    public function setParent(?PageInterface $parent): PageInterface
     {
         $this->parent = $parent;
 
@@ -212,7 +214,7 @@ class Page
         return $this->children;
     }
 
-    public function setChildren(Collection $children): static
+    public function setChildren(Collection $children): PageInterface
     {
         $this->children = $children;
 
@@ -220,14 +222,14 @@ class Page
     }
 
     /**
-     * @return Collection<int, Translation>
+     * @return Collection<int, PageTranslationInterface>
      */
     public function getTranslations(): Collection
     {
         return $this->translations;
     }
 
-    public function addTranslation(PageTranslation $translation): self
+    public function addTranslation(PageTranslationInterface $translation): PageInterface
     {
         if (!$this->translations->contains($translation)) {
             $this->translations[] = $translation;
@@ -237,7 +239,7 @@ class Page
         return $this;
     }
 
-    public function removeTranslation(PageTranslation $translation): self
+    public function removeTranslation(PageTranslationInterface $translation): PageInterface
     {
         if ($this->translations->removeElement($translation)) {
             if ($translation->getPage() === $this) {

@@ -1,0 +1,6 @@
+doctrine:
+    orm:
+        resolve_target_entities:
+            Kikwik\PageBundle\Model\PageInterface: Kikwik\PageBundle\Entity\Page
+            Kikwik\PageBundle\Model\PageTranslationInterface: Kikwik\PageBundle\Entity\PageTranslation
+            Kikwik\PageBundle\Model\BlockInterface: Kikwik\PageBundle\Entity\Block

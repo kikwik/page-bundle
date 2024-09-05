@@ -12,12 +12,15 @@ use Gedmo\IpTraceable\Traits\IpTraceableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Sluggable\Handler\TreeSlugHandler;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Kikwik\PageBundle\Model\BlockInterface;
+use Kikwik\PageBundle\Model\PageInterface;
+use Kikwik\PageBundle\Model\PageTranslationInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity()]
 #[Table(name: 'kw_page__page_translation')]
 #[ORM\HasLifecycleCallbacks]
-class PageTranslation
+class PageTranslation implements PageTranslationInterface
 {
     use TimestampableEntity;
     use BlameableEntity;
@@ -34,7 +37,7 @@ class PageTranslation
 
     #[ORM\ManyToOne(inversedBy: 'translations')]
     #[ORM\JoinColumn(nullable: false)]
-    protected ?Page $page = null;
+    protected ?PageInterface $page = null;
 
     #[ORM\Column(type: Types::STRING, length: 5, nullable: false)]
     protected ?string $locale = null;
@@ -57,14 +60,14 @@ class PageTranslation
     ])]
     protected ?string $slug = null;
 
-    #[ORM\ManyToOne(targetEntity: pageTranslation::class)]
+    #[ORM\ManyToOne(targetEntity: PageTranslationInterface::class)]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    protected ?pageTranslation $parent = null;
+    protected ?PageTranslationInterface $parent = null;
 
     /**
-     * @var Collection<int, Block>
+     * @var Collection<int, BlockInterface>
      */
-    #[ORM\OneToMany(targetEntity: Block::class, mappedBy: 'pageTranslation', cascade: ['persist','remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: BlockInterface::class, mappedBy: 'pageTranslation', cascade: ['persist','remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
     #[Assert\Valid]
     protected Collection $blocks;
@@ -102,12 +105,12 @@ class PageTranslation
         return $this->id;
     }
 
-    public function getPage(): ?Page
+    public function getPage(): ?PageInterface
     {
         return $this->page;
     }
 
-    public function setPage(?Page $page): static
+    public function setPage(?PageInterface $page): PageTranslationInterface
     {
         $this->page = $page;
 
@@ -119,7 +122,7 @@ class PageTranslation
         return $this->locale;
     }
 
-    public function setLocale(?string $locale): PageTranslation
+    public function setLocale(?string $locale): PageTranslationInterface
     {
         $this->locale = $locale;
         return $this;
@@ -130,7 +133,7 @@ class PageTranslation
         return $this->title;
     }
 
-    public function setTitle(?string $title): PageTranslation
+    public function setTitle(?string $title): PageTranslationInterface
     {
         $this->title = $title;
         return $this;
@@ -141,7 +144,7 @@ class PageTranslation
         return $this->description;
     }
 
-    public function setDescription(?string $description): PageTranslation
+    public function setDescription(?string $description): PageTranslationInterface
     {
         $this->description = $description;
         return $this;
@@ -152,7 +155,7 @@ class PageTranslation
         return $this->isEnabled;
     }
 
-    public function setIsEnabled(bool $isEnabled): PageTranslation
+    public function setIsEnabled(bool $isEnabled): PageTranslationInterface
     {
         $this->isEnabled = $isEnabled;
         return $this;
@@ -163,18 +166,18 @@ class PageTranslation
         return $this->slug;
     }
 
-    public function setSlug(?string $slug): PageTranslation
+    public function setSlug(?string $slug): PageTranslationInterface
     {
         $this->slug = $slug;
         return $this;
     }
 
-    public function getParent(): ?PageTranslation
+    public function getParent(): ?PageTranslationInterface
     {
         return $this->parent;
     }
 
-    public function setParent(?PageTranslation $parent): static
+    public function setParent(?PageTranslationInterface $parent): static
     {
         $this->parent = $parent;
 
@@ -182,14 +185,14 @@ class PageTranslation
     }
 
     /**
-     * @return Collection<int, Block>
+     * @return Collection<int, BlockInterface>
      */
     public function getBlocks(): Collection
     {
         return $this->blocks;
     }
 
-    public function addBlock(Block $block): self
+    public function addBlock(BlockInterface $block): PageTranslationInterface
     {
         if (!$this->blocks->contains($block)) {
             $this->blocks[] = $block;
@@ -199,7 +202,7 @@ class PageTranslation
         return $this;
     }
 
-    public function removeBlock(Block $block): self
+    public function removeBlock(BlockInterface $block): PageTranslationInterface
     {
         if ($this->blocks->removeElement($block)) {
             if ($block->getPageTranslation() === $this) {
