@@ -30,6 +30,38 @@ kikwik_page:
   enabled_locales: '%kernel.enabled_locales%'
 ```
 
+4. Define entity traits in your `src/Entity/` folder, here you can define custom fields for each entity
+
+```php
+// src/Entity/BlockTrait.php
+namespace App\Entity;
+
+trait BlockTrait
+{
+
+}
+```
+
+```php
+// src/Entity/PageTrait.php
+namespace App\Entity;
+
+trait PageTrait
+{
+
+}
+```
+
+```php
+// src/Entity/PageTranslationTrait.php
+namespace App\Entity;
+
+trait PageTranslationTrait
+{
+
+}
+```
+
 ### Page admin ###
 
 To activate the page admin feature add routes in `config/routes/kikwik_pages.yaml`:
