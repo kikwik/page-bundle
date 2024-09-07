@@ -106,13 +106,7 @@ class AbstractPage implements PageInterface
                 return $translation;
             }
         }
-
-        $parentTranslation = $this->getParent()?->getTranslation($locale);
-        $newTranslation = new PageTranslation(); // TODO: questo non va bene, dannazione!
-        $newTranslation->setLocale($locale);
-        $newTranslation->setParent($parentTranslation);
-        $this->addTranslation($newTranslation);
-        return $newTranslation;
+        return null;
     }
 
     /**************************************/

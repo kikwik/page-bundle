@@ -21,6 +21,11 @@ class PageController
 
     public function show(Request $request, PageTranslationInterface $pageTranslation, string $extraSlug = ''): Response
     {
+        if(!$pageTranslation->isEnabled())
+        {
+            throw new NotFoundHttpException('Page not enabled');
+        }
+
         $request->setLocale($pageTranslation->getLocale());
 
         if($extraSlug)

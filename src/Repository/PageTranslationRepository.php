@@ -8,8 +8,11 @@ use Kikwik\PageBundle\Model\PageTranslationInterface;
 
 class PageTranslationRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private string $entityClass,
+    )
     {
-        parent::__construct($registry, PageTranslationInterface::class);
+        parent::__construct($registry, $this->entityClass);
     }
 }

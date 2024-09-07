@@ -175,7 +175,7 @@ class AbstractPageTranslation implements PageTranslationInterface
         return $this->parent;
     }
 
-    public function setParent(?PageTranslationInterface $parent): static
+    public function setParent(?PageTranslationInterface $parent): PageTranslationInterface
     {
         $this->parent = $parent;
 

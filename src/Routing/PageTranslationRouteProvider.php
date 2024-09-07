@@ -5,6 +5,7 @@ namespace Kikwik\PageBundle\Routing;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManagerInterface;
 use Kikwik\PageBundle\Entity\PageTranslation;
+use Kikwik\PageBundle\Repository\PageTranslationRepository;
 use Symfony\Cmf\Component\Routing\RouteProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
@@ -14,10 +15,10 @@ use Symfony\Component\Routing\RouteCollection;
 
 class PageTranslationRouteProvider implements RouteProviderInterface
 {
-    private EntityManagerInterface $entityManager;
-    public function __construct(Registry $registry)
+    public function __construct(
+        private PageTranslationRepository $pageTranslationRepository,
+    )
     {
-        $this->entityManager = $registry->getManager();
     }
 
     public function getRouteCollectionForRequest(Request $request): RouteCollection
@@ -29,8 +30,7 @@ class PageTranslationRouteProvider implements RouteProviderInterface
         $slug = trim($slug, '/');
 
         // Trova la traduzione della pagina con lo slug completo
-        $pageTranslation = $this->entityManager->getRepository(PageTranslation::class)
-            ->findOneBy(['slug' => $slug]);
+        $pageTranslation = $this->pageTranslationRepository->findOneBy(['slug' => $slug]);
 
         // Se non è trovata, cerca per slug parziali
         if (!$pageTranslation)
@@ -40,8 +40,7 @@ class PageTranslationRouteProvider implements RouteProviderInterface
             {
                 array_pop($slugParts);
                 $partialSlug = implode('/', $slugParts);
-                $pageTranslation = $this->entityManager->getRepository(PageTranslation::class)
-                    ->findOneBy(['slug' => $partialSlug]);
+                $pageTranslation = $this->pageTranslationRepository->findOneBy(['slug' => $partialSlug]);
                 if ($pageTranslation)
                 {
                     break;
@@ -78,7 +77,7 @@ class PageTranslationRouteProvider implements RouteProviderInterface
             $routeName = substr($name, 0, $lastUnderscorePosition);
             $locale = substr($name, $lastUnderscorePosition + 1);
 
-            $pageTranslation = $this->entityManager->getRepository(PageTranslation::class)
+            $pageTranslation = $this->pageTranslationRepository
                 ->createQueryBuilder('pt')
                 ->leftJoin('pt.page', 'p')
                 ->andWhere('pt.locale = :locale')->setParameter('locale', $locale)

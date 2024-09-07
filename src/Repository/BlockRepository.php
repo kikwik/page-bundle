@@ -8,8 +8,11 @@ use Kikwik\PageBundle\Model\BlockInterface;
 
 class BlockRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private string $entityClass,
+    )
     {
-        parent::__construct($registry, BlockInterface::class);
+        parent::__construct($registry, $this->entityClass);
     }
 }

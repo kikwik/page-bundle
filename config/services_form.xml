@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+
+
+        <!-- Form\BlockComponentChoiceType -->
+        <service id="kikwik_page.form.block_component_choice_type" class="Kikwik\PageBundle\Form\BlockComponentChoiceType">
+            <tag name="form.type"/>
+            <argument type="service" id="kikwik_page.service.block_component_provider"/>
+        </service>
+
+
+        <!-- Form\BlockFormType -->
+        <service id="kikwik_page.form.block_form_type" class="Kikwik\PageBundle\Form\BlockFormType">
+            <tag name="form.type"/>
+            <argument type="service" id="kikwik_page.service.block_component_provider"/>
+            <argument>%kikwik_page.entity_class.block%</argument>
+        </service>
+
+
+        <!-- Form\PageFormType -->
+        <service id="kikwik_page.form.page_form_type" class="Kikwik\PageBundle\Form\PageFormType">
+            <tag name="form.type"/>
+            <argument>%kikwik_page.entity_class.page%</argument>
+        </service>
+
+
+        <!-- Form\PageTranslationFormType -->
+        <service id="kikwik_page.form.page_translation_form_type" class="Kikwik\PageBundle\Form\PageTranslationFormType">
+            <tag name="form.type"/>
+            <argument>%kikwik_page.entity_class.page_translation%</argument>
+        </service>
+
+
+    </services>
+</container>

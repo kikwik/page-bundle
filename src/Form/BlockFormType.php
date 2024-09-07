@@ -2,7 +2,6 @@
 
 namespace Kikwik\PageBundle\Form;
 
-use Kikwik\PageBundle\Entity\Block;
 use Kikwik\PageBundle\Model\BlockInterface;
 use Kikwik\PageBundle\Service\BlockComponentProvider;
 use Symfony\Component\Form\AbstractType;
@@ -16,6 +15,7 @@ class BlockFormType extends AbstractType
 {
     public function __construct(
         private BlockComponentProvider $blockComponentProvider,
+        private string $entityClass,
     )
     {
     }
@@ -65,7 +65,7 @@ class BlockFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Block::class,
+            'data_class' => $this->entityClass,
             'translation_domain' => 'kikwik_page',
         ]);
     }

@@ -28,6 +28,7 @@ class AdminController
         private array                         $enabledLocales,
         private string                        $adminRole,
         private string                        $pageClass,
+        private string                        $pageTranslationClass,
     )
     {
     }
@@ -80,7 +81,11 @@ class AdminController
 
         foreach($this->enabledLocales as $locale)
         {
-            $page->getTranslation($locale);
+            $parentTranslation = $page->getParent()?->getTranslation($locale);
+            $newTranslation = new $this->pageTranslationClass();
+            $newTranslation->setLocale($locale);
+            $newTranslation->setParent($parentTranslation);
+            $page->addTranslation($newTranslation);
         }
 
         $form = $this->formFactory->create(PageFormType::class, $page);

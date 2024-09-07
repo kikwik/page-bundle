@@ -3,12 +3,10 @@
 namespace Kikwik\PageBundle\Service;
 
 use Kikwik\PageBundle\Block\BlockComponentInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class BlockComponentProvider
 {
     public function __construct(
-        private ContainerInterface $container,
         private iterable $twigComponents
     )
     {

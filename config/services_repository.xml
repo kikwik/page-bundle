@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+
+        <!-- Repository\PageRepository -->
+        <service
+                id="kikwik_page.repository.page_repository"
+                class="Kikwik\PageBundle\Repository\PageRepository"
+                public="true"
+                autowire="true"
+        >
+            <tag name="doctrine.repository_service" />
+            <argument type="service" id="doctrine"/>
+            <argument>%kikwik_page.entity_class.page%</argument>
+        </service>
+        <service
+                id="Kikwik\PageBundle\Repository\PageRepository"
+                alias="kikwik_page.repository.page_repository"
+                public="true"
+        />
+
+        <!-- Repository\PageTranslationRepository -->
+        <service
+                id="kikwik_page.repository.page_translation_repository"
+                class="Kikwik\PageBundle\Repository\PageTranslationRepository"
+                public="true"
+                autowire="true"
+        >
+            <tag name="doctrine.repository_service" />
+            <argument type="service" id="doctrine"/>
+            <argument>%kikwik_page.entity_class.page_translation%</argument>
+        </service>
+        <service
+                id="Kikwik\PageBundle\Repository\PageTranslationRepository"
+                alias="kikwik_page.repository.page_translation_repository"
+                public="true"
+        />
+
+        <!-- Repository\BlockRepository -->
+        <service
+                id="kikwik_page.repository.block_repository"
+                class="Kikwik\PageBundle\Repository\BlockRepository"
+                public="true"
+                autowire="true"
+        >
+            <tag name="doctrine.repository_service" />
+            <argument type="service" id="doctrine"/>
+            <argument>%kikwik_page.entity_class.block%</argument>
+        </service>
+        <service
+                id="Kikwik\PageBundle\Repository\BlockRepository"
+                alias="kikwik_page.repository.block_repository"
+                public="true"
+        />
+
+
+    </services>
+</container>

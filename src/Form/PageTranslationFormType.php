@@ -12,6 +12,12 @@ use Symfony\UX\LiveComponent\Form\Type\LiveCollectionType;
 
 class PageTranslationFormType extends AbstractType
 {
+    public function __construct(
+        private string $entityClass,
+    )
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -50,7 +56,7 @@ class PageTranslationFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => PageTranslationInterface::class,
+            'data_class' => $this->entityClass,
             'translation_domain' => 'kikwik_page',
         ]);
     }

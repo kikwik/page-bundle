@@ -53,12 +53,20 @@ class KikwikPageBundle extends AbstractBundle
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         $container->import('../config/services.xml');
+        $container->import('../config/services_form.xml');
+        $container->import('../config/services_repository.xml');
+
+        $builder->setParameter('kikwik_page.entity_class.page',$config['resolve_target_entities']['page']);
+        $builder->setParameter('kikwik_page.entity_class.page_translation',$config['resolve_target_entities']['page_translation']);
+        $builder->setParameter('kikwik_page.entity_class.block',$config['resolve_target_entities']['block']);
+
 
         $container->services()
             ->get('kikwik_page.controller.admin_controller')
             ->arg('$enabledLocales', $config['enabled_locales'])
             ->arg('$adminRole', $config['admin_role'])
             ->arg('$pageClass', $config['resolve_target_entities']['page'])
+            ->arg('$pageTranslationClass', $config['resolve_target_entities']['page_translation'])
         ;
 
         $container->services()

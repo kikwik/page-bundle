@@ -31,7 +31,7 @@ interface PageTranslationInterface
     public function setSlug(?string $slug): PageTranslationInterface;
 
     public function getParent(): ?PageTranslationInterface;
-    public function setParent(?PageTranslationInterface $parent): static;
+    public function setParent(?PageTranslationInterface $parent): PageTranslationInterface;
 
     /**
      * @return Collection<int, BlockInterface>
