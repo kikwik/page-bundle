@@ -60,17 +60,15 @@ class KikwikPageBundle extends AbstractBundle
         $builder->setParameter('kikwik_page.entity_class.page_translation',$config['resolve_target_entities']['page_translation']);
         $builder->setParameter('kikwik_page.entity_class.block',$config['resolve_target_entities']['block']);
 
+        $builder->setParameter('kikwik_page.enabled_locales',$config['enabled_locales']);
 
-        $container->services()
-            ->get('kikwik_page.controller.admin_controller')
+
+        $container->services()->get('kikwik_page.controller.admin_controller')
             ->arg('$enabledLocales', $config['enabled_locales'])
             ->arg('$adminRole', $config['admin_role'])
-            ->arg('$pageClass', $config['resolve_target_entities']['page'])
-            ->arg('$pageTranslationClass', $config['resolve_target_entities']['page_translation'])
         ;
 
-        $container->services()
-            ->get('kikwik_page.twig_components.admin_bar')
+        $container->services()->get('kikwik_page.twig_components.admin_bar')
             ->arg('$adminRole', $config['admin_role'])
         ;
     }

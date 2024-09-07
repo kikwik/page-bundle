@@ -5,6 +5,22 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
 
+        <!-- Builder\PageBuilderFactory -->
+        <service
+                id="kikwik_page.builder.page_builder_factory"
+                class="Kikwik\PageBundle\Builder\PageBuilderFactory"
+        >
+            <argument>%kikwik_page.enabled_locales%</argument>
+            <argument>%kikwik_page.entity_class.page%</argument>
+            <argument>%kikwik_page.entity_class.page_translation%</argument>
+            <argument>%kikwik_page.entity_class.block%</argument>
+        </service>
+        <service
+                id="Kikwik\PageBundle\Builder\PageBuilderFactory"
+                alias="kikwik_page.builder.page_builder_factory"
+                public="true"
+        />
+
 
         <!-- Routing\PageTranslationRouteProvider -->
         <service
@@ -34,6 +50,7 @@
             <argument type="service" id="form.factory"/>
             <argument type="service" id="request_stack"/>
             <argument type="service" id="security.authorization_checker"/>
+            <argument type="service" id="kikwik_page.builder.page_builder_factory"/>
         </service>
 
         <!-- Service\BlockComponentProvider -->

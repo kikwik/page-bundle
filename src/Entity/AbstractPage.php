@@ -123,7 +123,7 @@ class AbstractPage implements PageInterface
         return $this->name;
     }
 
-    public function setName(string $name): PageInterface
+    public function setName(?string $name): PageInterface
     {
         $this->name = $name;
 

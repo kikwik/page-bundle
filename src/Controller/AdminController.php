@@ -3,6 +3,7 @@
 namespace Kikwik\PageBundle\Controller;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Kikwik\PageBundle\Builder\PageBuilderFactory;
 use Kikwik\PageBundle\Form\PageFormType;
 use Kikwik\PageBundle\Repository\PageRepository;
 use Symfony\Component\Form\FormFactory;
@@ -25,10 +26,9 @@ class AdminController
         private FormFactory                   $formFactory,
         private RequestStack                  $requestStack,
         private AuthorizationCheckerInterface $authorizationChecker,
+        private PageBuilderFactory            $pageBuilderFactory,
         private array                         $enabledLocales,
         private string                        $adminRole,
-        private string                        $pageClass,
-        private string                        $pageTranslationClass,
     )
     {
     }
@@ -52,9 +52,9 @@ class AdminController
     public function pageCreate(Request $request, ?int $parentId = null): Response
     {
         $this->checkPermission();
-
-        $page = new $this->pageClass();
         $parent = null;
+
+        $pageBuilder = $this->pageBuilderFactory->createPageBuilder();
 
         if($parentId)
         {
@@ -65,7 +65,7 @@ class AdminController
                 $this->addFlash('danger', 'Pagina padre non trovata.');
                 return $this->redirectToRoute('kikwik_page_admin_page_list');
             }
-            $page->setParent($parent);
+            $pageBuilder->setParent($parent);
         }
         else
         {
@@ -75,18 +75,11 @@ class AdminController
                 $this->addFlash('danger', 'La homepage esiste già.');
                 return $this->redirectToRoute('kikwik_page_admin_page_list');
             }
-            $page->setParent(null);
-            $page->setName('Homepage');
+            $pageBuilder->setParent(null);
+            $pageBuilder->setName('Homepage');
         }
 
-        foreach($this->enabledLocales as $locale)
-        {
-            $parentTranslation = $page->getParent()?->getTranslation($locale);
-            $newTranslation = new $this->pageTranslationClass();
-            $newTranslation->setLocale($locale);
-            $newTranslation->setParent($parentTranslation);
-            $page->addTranslation($newTranslation);
-        }
+        $page = $pageBuilder->getPage();
 
         $form = $this->formFactory->create(PageFormType::class, $page);
         $form->handleRequest($request);
