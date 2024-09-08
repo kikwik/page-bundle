@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\MappedSuperclass]
 #[ORM\HasLifecycleCallbacks]
-class AbstractPageTranslation implements PageTranslationInterface
+abstract class AbstractPageTranslation implements PageTranslationInterface
 {
     use TimestampableEntity;
     use BlameableEntity;

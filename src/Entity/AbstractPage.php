@@ -18,7 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\MappedSuperclass]
 #[UniqueEntity(fields: ['name'])]
 #[Gedmo\Tree(type: 'nested')]
-class AbstractPage implements PageInterface
+#[ORM\HasLifecycleCallbacks]
+abstract class AbstractPage implements PageInterface
 {
     use TimestampableEntity;
     use BlameableEntity;

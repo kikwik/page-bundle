@@ -7,6 +7,7 @@ use Kikwik\PageBundle\Model\BlockInterface;
 
 #[ORM\Entity()]
 #[ORM\Table(name: 'kw_page__block')]
+#[ORM\HasLifecycleCallbacks]
 class Block extends AbstractBlock implements BlockInterface
 {
     use \App\Entity\BlockTrait;

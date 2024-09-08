@@ -13,7 +13,8 @@ use Kikwik\PageBundle\Model\PageTranslationInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\MappedSuperclass]
-class AbstractBlock implements BlockInterface
+#[ORM\HasLifecycleCallbacks]
+abstract class AbstractBlock implements BlockInterface
 {
     use TimestampableEntity;
     use BlameableEntity;
