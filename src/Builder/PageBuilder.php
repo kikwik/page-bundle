@@ -48,9 +48,9 @@ class PageBuilder
         return $this;
     }
 
-    public function addBlock(string $componentName, array $componentParams = []): self
+    public function addBlock(string $locale, string $componentName, array $componentParams = []): self
     {
-        $this->components[] = [
+        $this->components[$locale][] = [
             'component'=>$componentName,
             'parameters' => $componentParams
         ];
@@ -79,14 +79,18 @@ class PageBuilder
             $pageTranslation->setParent($page->getParent()?->getTranslation($locale));
             $page->addTranslation($pageTranslation);
 
-            foreach($this->components as $component)
+            if(isset($this->components[$locale]))
             {
-                /** @var BlockInterface $block */
-                $block = new $this->blockClassName();
-                $block->setComponent($component['component']);
-                $block->setParameters($component['parameters']);
-                $pageTranslation->addBlock($block);
+                foreach($this->components[$locale] as $component)
+                {
+                    /** @var BlockInterface $block */
+                    $block = new $this->blockClassName();
+                    $block->setComponent($component['component']);
+                    $block->setParameters($component['parameters']);
+                    $pageTranslation->addBlock($block);
+                }
             }
+
         }
         return $page;
     }
