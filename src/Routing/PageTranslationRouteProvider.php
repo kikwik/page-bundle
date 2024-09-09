@@ -2,9 +2,6 @@
 
 namespace Kikwik\PageBundle\Routing;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\ORM\EntityManagerInterface;
-use Kikwik\PageBundle\Entity\PageTranslation;
 use Kikwik\PageBundle\Repository\PageTranslationRepository;
 use Symfony\Cmf\Component\Routing\RouteProviderInterface;
 use Symfony\Component\HttpFoundation\Request;

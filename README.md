@@ -28,39 +28,61 @@ kikwik_page:
   admin_role: 'ROLE_ADMIN_PAGE'   # set to empty string to disable permission checker
   default_locale: '%kernel.default_locale%'
   enabled_locales: '%kernel.enabled_locales%'
+  resolve_target_entities:
+    page: App\Entity\Pages\Page
+    page_translation: App\Entity\Pages\PageTranslation
+    block: App\Entity\Pages\Block
+
 ```
 
-4. Define entity traits in your `src/Entity/` folder, here you can define custom fields for each entity
+4. Define your entity and make them extedns base classes
+
 
 ```php
-// src/Entity/BlockTrait.php
-namespace App\Entity;
+// src/Entity/Pages/Page.php
+namespace App\Entity\Pages;
 
-trait BlockTrait
+use Doctrine\ORM\Mapping as ORM;
+use Kikwik\PageBundle\Entity\AbstractPage;
+use Kikwik\PageBundle\Model\PageInterface;
+
+#[ORM\Entity()]
+#[ORM\Table(name: 'kw_page__page')]
+class Page extends AbstractPage implements PageInterface
 {
-
 }
 ```
 
 ```php
-// src/Entity/PageTrait.php
-namespace App\Entity;
+// src/Entity/Pages/PageTranslation.php
+namespace App\Entity\Pages;
 
-trait PageTrait
+use Doctrine\ORM\Mapping as ORM;
+use Kikwik\PageBundle\Entity\AbstractPageTranslation;
+use Kikwik\PageBundle\Model\PageTranslationInterface;
+
+#[ORM\Entity()]
+#[ORM\Table(name: 'kw_page__page_translation')]
+class PageTranslation extends AbstractPageTranslation implements PageTranslationInterface
 {
-
 }
 ```
 
 ```php
-// src/Entity/PageTranslationTrait.php
-namespace App\Entity;
+// src/Entity/Pages/Block.php
+namespace App\Entity\Pages;
 
-trait PageTranslationTrait
+use Doctrine\ORM\Mapping as ORM;
+use Kikwik\PageBundle\Entity\AbstractBlock;
+use Kikwik\PageBundle\Model\BlockInterface;
+
+#[ORM\Entity()]
+#[ORM\Table(name: 'kw_page__block')]
+class Block extends AbstractBlock implements BlockInterface
 {
-
 }
 ```
+
 
 ### Page admin ###
 
@@ -77,7 +99,7 @@ and create a PageFormLive component in `src/Twig/Components/PageFormLive.php`:
 ```php
 namespace App\Twig\Components;
 
-use Kikwik\PageBundle\Entity\Page;
+use App\Entity\Pages\Page;
 use Kikwik\PageBundle\Form\PageFormType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;

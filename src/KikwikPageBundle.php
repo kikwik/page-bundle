@@ -13,22 +13,25 @@ class KikwikPageBundle extends AbstractBundle
 
     public function prependExtension(ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        // configure other bundles
-        $container->import('../config/packages/cmf_routing.yaml');
-        $container->import('../config/packages/stof_doctrine_extensions.yaml');
-        $container->import('../config/packages/twig_component.yaml');
-
-        // configure doctrine.orm.resolve_target_entities
         $myConfigs = $builder->getExtensionConfig('kikwik_page');
-        $pageEntityClass            = $myConfigs[0]['resolve_target_entities']['page']              ?? 'Kikwik\PageBundle\Entity\Page';
-        $pageTranslationEntityClass = $myConfigs[0]['resolve_target_entities']['page_translation']  ?? 'Kikwik\PageBundle\Entity\PageTranslation';
-        $blockEntityClass           = $myConfigs[0]['resolve_target_entities']['block']             ?? 'Kikwik\PageBundle\Entity\Block';
+        $pageEntityClass            = $myConfigs[0]['resolve_target_entities']['page']              ?? null;
+        $pageTranslationEntityClass = $myConfigs[0]['resolve_target_entities']['page_translation']  ?? null;
+        $blockEntityClass           = $myConfigs[0]['resolve_target_entities']['block']             ?? null;
 
-        $doctrineConfig = [];
-        $doctrineConfig['orm']['resolve_target_entities']['Kikwik\PageBundle\Model\PageInterface'] = $pageEntityClass;
-        $doctrineConfig['orm']['resolve_target_entities']['Kikwik\PageBundle\Model\PageTranslationInterface'] = $pageTranslationEntityClass;
-        $doctrineConfig['orm']['resolve_target_entities']['Kikwik\PageBundle\Model\BlockInterface'] = $blockEntityClass;
-        $builder->prependExtensionConfig('doctrine', $doctrineConfig);
+        if($pageEntityClass && $pageTranslationEntityClass && $blockEntityClass)
+        {
+            // configure doctrine.orm.resolve_target_entities
+            $doctrineConfig = [];
+            $doctrineConfig['orm']['resolve_target_entities']['Kikwik\PageBundle\Model\PageInterface'] = $pageEntityClass;
+            $doctrineConfig['orm']['resolve_target_entities']['Kikwik\PageBundle\Model\PageTranslationInterface'] = $pageTranslationEntityClass;
+            $doctrineConfig['orm']['resolve_target_entities']['Kikwik\PageBundle\Model\BlockInterface'] = $blockEntityClass;
+            $builder->prependExtensionConfig('doctrine', $doctrineConfig);
+
+            // configure other bundles
+            $container->import('../config/packages/cmf_routing.yaml');
+            $container->import('../config/packages/stof_doctrine_extensions.yaml');
+            $container->import('../config/packages/twig_component.yaml');
+        }
     }
 
     public function configure(DefinitionConfigurator $definition): void
@@ -41,9 +44,9 @@ class KikwikPageBundle extends AbstractBundle
                 ->arrayNode('resolve_target_entities')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('page')->defaultValue('Kikwik\PageBundle\Entity\Page')->end()
-                        ->scalarNode('page_translation')->defaultValue('Kikwik\PageBundle\Entity\PageTranslation')->end()
-                        ->scalarNode('block')->defaultValue('Kikwik\PageBundle\Entity\Block')->end()
+                        ->scalarNode('page')->defaultNull()->end()
+                        ->scalarNode('page_translation')->defaultNull()->end()
+                        ->scalarNode('block')->defaultNull()->end()
                     ->end()
                 ->end()
             ->end()
@@ -52,25 +55,31 @@ class KikwikPageBundle extends AbstractBundle
 
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-        $container->import('../config/services.xml');
-        $container->import('../config/services_form.xml');
-        $container->import('../config/services_repository.xml');
+        $pageEntityClass            = $config['resolve_target_entities']['page'];
+        $pageTranslationEntityClass = $config['resolve_target_entities']['page_translation'];
+        $blockEntityClass           = $config['resolve_target_entities']['block'];
 
-        $builder->setParameter('kikwik_page.entity_class.page',$config['resolve_target_entities']['page']);
-        $builder->setParameter('kikwik_page.entity_class.page_translation',$config['resolve_target_entities']['page_translation']);
-        $builder->setParameter('kikwik_page.entity_class.block',$config['resolve_target_entities']['block']);
+        if($pageEntityClass && $pageTranslationEntityClass && $blockEntityClass)
+        {
+            $builder->setParameter('kikwik_page.entity_class.page',$pageEntityClass);
+            $builder->setParameter('kikwik_page.entity_class.page_translation',$pageTranslationEntityClass);
+            $builder->setParameter('kikwik_page.entity_class.block',$blockEntityClass);
+            $builder->setParameter('kikwik_page.enabled_locales',$config['enabled_locales']);
 
-        $builder->setParameter('kikwik_page.enabled_locales',$config['enabled_locales']);
+            $container->import('../config/services.xml');
+            $container->import('../config/services_form.xml');
+            $container->import('../config/services_repository.xml');
 
+            $container->services()->get('kikwik_page.controller.admin_controller')
+                ->arg('$enabledLocales', $config['enabled_locales'])
+                ->arg('$adminRole', $config['admin_role'])
+            ;
 
-        $container->services()->get('kikwik_page.controller.admin_controller')
-            ->arg('$enabledLocales', $config['enabled_locales'])
-            ->arg('$adminRole', $config['admin_role'])
-        ;
+            $container->services()->get('kikwik_page.twig_components.admin_bar')
+                ->arg('$adminRole', $config['admin_role'])
+            ;
+        }
 
-        $container->services()->get('kikwik_page.twig_components.admin_bar')
-            ->arg('$adminRole', $config['admin_role'])
-        ;
     }
 
 }
