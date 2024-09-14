@@ -83,6 +83,13 @@ class Block extends AbstractBlock implements BlockInterface
 }
 ```
 
+5. Clear your cache and update databse
+
+```shell
+symfony console cache:clear
+symfony console doctrine:schema:update --force
+```
+
 
 ### Page admin ###
 
