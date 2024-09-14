@@ -26,8 +26,6 @@ class PageController
             throw new NotFoundHttpException('Page not enabled');
         }
 
-        $request->setLocale($pageTranslation->getLocale());
-
         if($extraSlug)
         {
             $event = new PageExtraSlugEvent($pageTranslation, $extraSlug);

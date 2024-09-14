@@ -49,6 +49,7 @@ class PageTranslationRouteProvider implements RouteProviderInterface
         {
             $remainingSlug = str_replace($pageTranslation->getSlug(), '', $slug);
             $additionalParameters = array_filter(explode('/', $remainingSlug));
+            $request->setLocale($pageTranslation->getLocale());
 
             $route = new Route($pageTranslation->getSlug().'/{extraSlug}', [
                 '_controller' => 'kikwik_page.controller.page_controller::show',
