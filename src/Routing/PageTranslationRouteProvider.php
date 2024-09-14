@@ -27,7 +27,7 @@ class PageTranslationRouteProvider implements RouteProviderInterface
         $slug = trim($slug, '/');
 
         // Trova la traduzione della pagina con lo slug completo
-        $pageTranslation = $this->pageTranslationRepository->findOneBy(['slug' => $slug]);
+        $pageTranslation = $this->pageTranslationRepository->findOneBySlugJoinPage($slug);
 
         // Se non è trovata, cerca per slug parziali
         if (!$pageTranslation)
@@ -37,7 +37,7 @@ class PageTranslationRouteProvider implements RouteProviderInterface
             {
                 array_pop($slugParts);
                 $partialSlug = implode('/', $slugParts);
-                $pageTranslation = $this->pageTranslationRepository->findOneBy(['slug' => $partialSlug]);
+                $pageTranslation = $this->pageTranslationRepository->findOneBySlugJoinPage($partialSlug);
                 if ($pageTranslation)
                 {
                     break;
@@ -76,7 +76,7 @@ class PageTranslationRouteProvider implements RouteProviderInterface
 
             $pageTranslation = $this->pageTranslationRepository
                 ->createQueryBuilder('pt')
-                ->leftJoin('pt.page', 'p')
+                ->leftJoin('pt.page', 'p')->addSelect('p')
                 ->andWhere('pt.locale = :locale')->setParameter('locale', $locale)
                 ->andWhere('p.routeName = :routeName')->setParameter('routeName', $routeName)
                 ->getQuery()

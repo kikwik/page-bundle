@@ -15,4 +15,16 @@ class PageTranslationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, $this->entityClass);
     }
+
+
+    public function findOneBySlugJoinPage(string $slug): ?PageTranslationInterface
+    {
+        return $this->createQueryBuilder('pt')
+            ->where('pt.slug = :slug')->setParameter('slug', $slug)
+            ->leftJoin('pt.page', 'p')->addSelect('p')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 }
