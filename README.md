@@ -197,6 +197,7 @@ class PageExtraSlugListener
 
     public function __construct(
         private Environment $twig,
+        private MyCustomController $customController,
     )
     {
     }
@@ -208,9 +209,7 @@ class PageExtraSlugListener
         
         if($extraSlug == 'some string that matches')
         {
-            $response = new Response($this->twig->render('template/page/childPage.html.twig', [
-                    'parentPageTranslation' => $pageTranslation,
-                ]));
+            $response = $this->customController->customAction($pageTranslation);
             $event->setResponse($response);
         }
     }
