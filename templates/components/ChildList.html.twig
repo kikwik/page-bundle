@@ -1,7 +1,9 @@
-{% if this.pageChildren | length %}
-    <ul>
-        {% for child in this.pageChildren %}
-            <li><a href="/{{ child.slug }}">{{ child.title }}</a></li>
-        {% endfor %}
-    </ul>
-{% endif %}
+<div {{ attributes }}>
+    {% if this.pageChildren | length %}
+        <ul>
+            {% for child in this.pageChildren %}
+                <li><a href="/{{ child.slug }}">{{ child.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>

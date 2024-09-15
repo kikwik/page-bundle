@@ -1,5 +1,6 @@
-{{ _self.render_tree(this.tree, this.pageTranslation) }}
-
+<div {{ attributes }}>
+    {{ _self.render_tree(this.tree, this.pageTranslation) }}
+</div>
 
 {% macro render_tree(node, activePageTranslation) %}
     <ul class="tree">
