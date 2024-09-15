@@ -43,6 +43,11 @@ abstract class BaseBlockComponent implements BlockComponentInterface
         return $this->block->getPageTranslation()->getPage();
     }
 
+    public function getLocale(): string
+    {
+        return $this->getPageTranslation()->getLocale();
+    }
+
     public function get(string $parameterKey)
     {
         return $this->block?->getParameters()[$parameterKey] ?? null;

@@ -2,7 +2,9 @@
 
 namespace Kikwik\PageBundle\Twig\Components;
 
+use Kikwik\PageBundle\Model\PageInterface;
 use Kikwik\PageBundle\Model\PageTranslationInterface;
+use Kikwik\PageBundle\Repository\PageRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class Breadcrumbs
@@ -13,32 +15,26 @@ class Breadcrumbs
 
     public function __construct(
         private RequestStack $requestStack,
+        private PageRepository $pageRepository,
     )
     {
     }
 
-    public function getPageTranslation(): ?PageTranslationInterface
-    {
-        return $this->requestStack->getCurrentRequest()->get('pageTranslation');
-    }
 
     public function getUrls(): array
     {
+        // Find path for current page and build array with ['url'=>'title']
         $result = [];
-        $pageTranslation = $this->getPageTranslation();
-        if ($pageTranslation)
+        $path = $this->pageRepository->getPathWithTranslations($this->getPage(), $this->getLocale());
+        foreach($path as $index => $page)
         {
-            // Costruisce il path all'indietro
-            array_unshift($result, [$pageTranslation->getUrl() => $pageTranslation->getTitle()]);
-            while ($pageTranslation->getParent())
-            {
-                $pageTranslation = $pageTranslation->getParent();
-                array_unshift($result, [$pageTranslation->getUrl() => $pageTranslation->getTitle()]);
-            }
+            $pageTranslation = $page->gettranslation($this->getLocale());
+            $result[] = [$pageTranslation->getUrl() => $pageTranslation->getTitle()];
         }
+
+        // Overrides the label of the first element
         if(count($result) && $this->firstItemLabel)
         {
-            // Sovrascrive la label del primo elemento
             $firstKey = array_key_first($result[0]);
             $result[0][$firstKey] = $this->firstItemLabel;
         }
@@ -53,5 +49,20 @@ class Breadcrumbs
         $flattenedResult += $this->extraLink;
 
         return $flattenedResult;
+    }
+
+    private function getPageTranslation(): ?PageTranslationInterface
+    {
+        return $this->requestStack->getCurrentRequest()->get('pageTranslation');
+    }
+
+    private function getPage(): ?PageInterface
+    {
+        return $this->getPageTranslation()->getPage();
+    }
+
+    private function getLocale(): string
+    {
+        return $this->getPageTranslation()->getLocale();
     }
 }

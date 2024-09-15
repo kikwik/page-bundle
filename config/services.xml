@@ -77,12 +77,21 @@
         <service id="kikwik_page.twig_components.breadcrumbs" class="Kikwik\PageBundle\Twig\Components\Breadcrumbs">
             <tag name="twig.component"/>
             <argument type="service" id="request_stack"/>
+            <argument type="service" id="kikwik_page.repository.page_repository"/>
         </service>
 
         <!-- Twig\Components\ChildList -->
-        <service id="kikwik_page.twig_components_block.child_list" class="Kikwik\PageBundle\Twig\Components\ChildList">
+        <service id="kikwik_page.twig_components.child_list" class="Kikwik\PageBundle\Twig\Components\ChildList">
             <tag name="twig.component"/>
             <argument type="service" id="request_stack"/>
+            <argument type="service" id="kikwik_page.repository.page_repository"/>
+        </service>
+
+        <!-- Twig\Components\NavigationTree -->
+        <service id="kikwik_page.twig_components.navigation_tree" class="Kikwik\PageBundle\Twig\Components\NavigationTree">
+            <tag name="twig.component"/>
+            <argument type="service" id="request_stack"/>
+            <argument type="service" id="kikwik_page.repository.page_repository"/>
         </service>
 
     </services>
