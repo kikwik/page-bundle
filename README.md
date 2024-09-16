@@ -1,7 +1,7 @@
 Kikwik/PageBundle
 =================
 
-Manage pages for symfony 6.4+
+Manage pages with translations for symfony 6.4+
 
 ## Installation
 
@@ -35,7 +35,7 @@ kikwik_page:
 
 ```
 
-4. Define your entity and make them extedns base classes
+4. Define your entity and make them extends base classes
 
 
 ```php
