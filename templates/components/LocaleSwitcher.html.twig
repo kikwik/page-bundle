@@ -1,13 +1,13 @@
 <div {{ attributes }}>
     {% if this.pageTranslation %}
         <div class="dropdown kw-page-locale-switcher">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="localeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="dropdown-toggle" type="button" id="localeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 {% if this.currentLocale %}
                     {{ this.currentLocale | upper }} <!-- Mostra la lingua corrente come testo del bottone -->
                 {% else %}
                     Select Language
                 {% endif %}
-            </button>
+            </a>
             <ul class="dropdown-menu" aria-labelledby="localeDropdown">
                 {% for locale, url in this.urls %}
                     <li>
