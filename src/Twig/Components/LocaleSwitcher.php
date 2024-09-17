@@ -23,6 +23,13 @@ class LocaleSwitcher
         return $this->requestStack->getCurrentRequest()->getLocale();
     }
 
+    public function getExtraSlug(): string
+    {
+        return $this->requestStack->getCurrentRequest()->get('extraSlug')
+            ? '/'.$this->requestStack->getCurrentRequest()->get('extraSlug')
+            : '';
+    }
+
     public function getUrls(): array
     {
         $result = [];
@@ -32,7 +39,7 @@ class LocaleSwitcher
         {
             if($translation->getId() && $translation->isEnabled())
             {
-                $result[$translation->getLocale()] = '/'.$translation->getSlug();
+                $result[$translation->getLocale()] = $translation->getUrl().$this->getExtraSlug();
             }
         }
         return $result;
