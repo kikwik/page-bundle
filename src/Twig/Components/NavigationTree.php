@@ -47,19 +47,21 @@ class NavigationTree
     /**
      * @return PageInterface[]
      */
-    private function getPath(): array
+    public function getPath(): array
     {
         return $this->pageRepository->getPathWithTranslations($this->getPage(), $this->getLocale());
     }
 
-    private function getPage(): ?PageInterface
+    public function getPage(): ?PageInterface
     {
-        return $this->getPageTranslation()->getPage();
+        return $this->getPageTranslation()?->getPage();
     }
 
-    private function getLocale(): string
+    public function getLocale(): string
     {
-        return $this->getPageTranslation()->getLocale();
+        return $this->getPageTranslation()
+            ? $this->getPageTranslation()->getLocale()
+            : $this->requestStack->getMainRequest()->getLocale();
     }
 
 }

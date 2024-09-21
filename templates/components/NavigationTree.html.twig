@@ -1,17 +1,17 @@
 <div {{ attributes }}>
-    {{ _self.render_tree(this.tree, this.pageTranslation) }}
+    {{ _self.render_tree(this.tree, this.pageTranslation, this.locale) }}
 </div>
 
-{% macro render_tree(node, activePageTranslation) %}
+{% macro render_tree(node, activePageTranslation, locale) %}
     <ul class="tree">
         {% for child in node.children %}
             <li class="lvl-{{ child.lvl }}">
-                {% set childTranslation = child.translation(activePageTranslation.locale) %}
+                {% set childTranslation = child.translation(locale) %}
                 {% if childTranslation %}
                     <a href="{{ childTranslation.url }}" class="{% if activePageTranslation and childTranslation.id == activePageTranslation.id %}active{% endif %}">{{ childTranslation.title }}</a>
                 {% endif %}
                 {% if child.children | length %}
-                    {{ _self.render_tree(child, activePageTranslation) }}
+                    {{ _self.render_tree(child, activePageTranslation, locale) }}
                 {% endif %}
             </li>
         {% endfor %}
