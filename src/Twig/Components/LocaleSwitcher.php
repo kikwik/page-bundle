@@ -51,10 +51,13 @@ class LocaleSwitcher
         else
         {
             $route = $this->requestStack->getCurrentRequest()->get('_route');
-            $routeParams = $this->requestStack->getCurrentRequest()->get('_route_params');
-            foreach($this->enabledLocales as $locale)
+            if($route)
             {
-                $result[$locale] = $this->urlGenerator->generate($route, array_merge($routeParams,['_locale' => $locale]));
+                $routeParams = $this->requestStack->getCurrentRequest()->get('_route_params',[]);
+                foreach($this->enabledLocales as $locale)
+                {
+                    $result[$locale] = $this->urlGenerator->generate($route, array_merge($routeParams,['_locale' => $locale]));
+                }
             }
         }
         return $result;
