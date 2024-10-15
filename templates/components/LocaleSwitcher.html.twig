@@ -1,5 +1,5 @@
 <div {{ attributes }}>
-    {% if this.pageTranslation %}
+    {% if this.urls | length %}
         <div class="dropdown kw-page-locale-switcher">
             <a class="dropdown-toggle" type="button" id="localeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 {% if this.currentLocale %}

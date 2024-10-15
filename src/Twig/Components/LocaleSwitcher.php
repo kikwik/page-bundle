@@ -4,11 +4,14 @@ namespace Kikwik\PageBundle\Twig\Components;
 
 use Kikwik\PageBundle\Model\PageTranslationInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class LocaleSwitcher
 {
     public function __construct(
-        private RequestStack $requestStack,
+        private RequestStack          $requestStack,
+        private UrlGeneratorInterface $urlGenerator,
+        private array                 $enabledLocales,
     )
     {
     }
@@ -33,13 +36,25 @@ class LocaleSwitcher
     public function getUrls(): array
     {
         $result = [];
-        $page = $this->getPageTranslation()->getPage();
-        /** @var PageTranslationInterface $translation */
-        foreach($page->getTranslations() as $translation)
+        if($this->getPageTranslation())
         {
-            if($translation->getId() && $translation->isEnabled())
+            $page = $this->getPageTranslation()->getPage();
+            /** @var PageTranslationInterface $translation */
+            foreach($page->getTranslations() as $translation)
             {
-                $result[$translation->getLocale()] = $translation->getUrl().$this->getExtraSlug();
+                if($translation->getId() && $translation->isEnabled())
+                {
+                    $result[$translation->getLocale()] = $translation->getUrl().$this->getExtraSlug();
+                }
+            }
+        }
+        else
+        {
+            $route = $this->requestStack->getCurrentRequest()->get('_route');
+            $routeParams = $this->requestStack->getCurrentRequest()->get('_route_params');
+            foreach($this->enabledLocales as $locale)
+            {
+                $result[$locale] = $this->urlGenerator->generate($route, array_merge($routeParams,['_locale' => $locale]));
             }
         }
         return $result;

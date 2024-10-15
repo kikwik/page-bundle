@@ -78,6 +78,10 @@ class KikwikPageBundle extends AbstractBundle
             $container->services()->get('kikwik_page.twig_components.admin_bar')
                 ->arg('$adminRole', $config['admin_role'])
             ;
+
+            $container->services()->get('kikwik_page.twig_components.locale_switcher')
+                ->arg('$enabledLocales', $config['enabled_locales'])
+            ;
         }
 
     }
