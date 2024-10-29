@@ -50,7 +50,7 @@ abstract class AbstractPageTranslation implements PageTranslationInterface
     #[ORM\Column(type: Types::BOOLEAN, nullable: false)]
     protected bool $isEnabled = true;
 
-    #[ORM\Column(length: 128, unique: true)]
+    #[ORM\Column(length: 256, unique: true)]
     #[Gedmo\Slug(fields: ['title'])]
     #[Gedmo\SlugHandler(class: TreeSlugHandler::class, options: [
         'parentRelationField' => 'parent',
