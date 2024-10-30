@@ -6,7 +6,11 @@
                     <li class="breadcrumb-item active" aria-current="page">{{ label }}</li>
                 {% else %}
                     <li class="breadcrumb-item">
-                        <a href="{{ url }}">{{ label }}</a>
+                        {% if '__DISABLED__' in url %}
+                            <a>{{ label }}</a>
+                        {% else %}
+                            <a href="{{ url }}">{{ label }}</a>
+                        {% endif %}
                     </li>
                 {% endif %}
             {% endfor %}

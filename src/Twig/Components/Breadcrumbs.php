@@ -29,7 +29,8 @@ class Breadcrumbs
         foreach($path as $index => $page)
         {
             $pageTranslation = $page->gettranslation($this->getLocale());
-            $result[] = [$pageTranslation->getUrl() => $pageTranslation->getTitle()];
+            $url = $pageTranslation->isEnabled() ? $pageTranslation->getUrl() : '__DISABLED__'.$pageTranslation->getId();
+            $result[] = [$url => $pageTranslation->getTitle()];
         }
 
         // Overrides the label of the first element
