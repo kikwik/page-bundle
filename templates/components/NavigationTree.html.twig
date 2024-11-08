@@ -5,7 +5,7 @@
 {% macro render_tree(node, activePageTranslation, locale) %}
     <ul class="tree">
         {% for child in node.children %}
-            <li class="lvl-{{ child.lvl }}">
+            <li class="lvl-{{ child.lvl }} page-{{ child.id }}">
                 {% set childTranslation = child.translation(locale) %}
                 {% if childTranslation %}
                     <a href="{{ childTranslation.url }}" class="{% if activePageTranslation and childTranslation.id == activePageTranslation.id %}active{% endif %}">{{ childTranslation.title }}</a>
