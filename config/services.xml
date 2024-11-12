@@ -88,6 +88,12 @@
             <argument type="service" id="kikwik_page.repository.page_repository"/>
         </service>
 
+        <!-- Twig\Components\SiblingList -->
+        <service id="kikwik_page.twig_components.sibling_list" class="Kikwik\PageBundle\Twig\Components\SiblingList">
+            <tag name="twig.component"/>
+            <argument type="service" id="request_stack"/>
+        </service>
+
         <!-- Twig\Components\NavigationTree -->
         <service id="kikwik_page.twig_components.navigation_tree" class="Kikwik\PageBundle\Twig\Components\NavigationTree">
             <tag name="twig.component"/>

@@ -31,18 +31,20 @@ class ChildList
         return $result;
     }
 
-    private function getPageTranslation(): ?PageTranslationInterface
+    public function getPageTranslation(): ?PageTranslationInterface
     {
         return $this->requestStack->getCurrentRequest()->get('pageTranslation');
     }
 
-    private function getPage(): ?PageInterface
+    public function getPage(): ?PageInterface
     {
         return $this->getPageTranslation()->getPage();
     }
 
-    private function getLocale(): string
+    public function getLocale(): string
     {
-        return $this->getPageTranslation()->getLocale();
+        return $this->getPageTranslation()
+            ? $this->getPageTranslation()->getLocale()
+            : $this->requestStack->getMainRequest()->getLocale();
     }
 }

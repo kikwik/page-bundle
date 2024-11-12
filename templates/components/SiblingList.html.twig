@@ -1,0 +1,16 @@
+<div {{ attributes }}>
+    {% if this.pageSiblings | length %}
+        <ul class="list-group list-group-horizontal">
+            {% if this.showParentLink and this.parentTranslation %}
+                <a href="{{ this.parentTranslation.url }}" class="list-group-item">
+                        <i class="bi bi-arrow-90deg-up"></i>
+                </a>
+            {% endif %}
+            {% for sibling in this.pageSiblings %}
+                <a href="{{ sibling.url }}" class="list-group-item {% if sibling == this.pageTranslation %}list-group-item-success{% endif %}">
+                        {{ sibling.title }}
+                </a>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
