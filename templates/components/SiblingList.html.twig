@@ -1,16 +1,18 @@
 <div {{ attributes }}>
     {% if this.pageSiblings | length %}
-        <ul class="list-group list-group-horizontal">
+        <div class="list-group list-group-horizontal flex-wrap">
             {% if this.showParentLink and this.parentTranslation %}
-                <a href="{{ this.parentTranslation.url }}" class="list-group-item">
-                        <i class="bi bi-arrow-90deg-up"></i>
+                <a href="{{ this.parentTranslation.url }}" class="list-group-item flex-fill flex-shrink-1"
+                   style="max-width: 50px;">
+                    <i class="bi bi-arrow-90deg-up"></i>
                 </a>
             {% endif %}
             {% for sibling in this.pageSiblings %}
-                <a href="{{ sibling.url }}" class="list-group-item {% if sibling == this.pageTranslation %}list-group-item-success{% endif %}">
-                        {{ sibling.title }}
+                <a href="{{ sibling.url }}"
+                   class="list-group-item flex-fill {% if sibling == this.pageTranslation %}list-group-item-success{% endif %}">
+                    {{ sibling.title }}
                 </a>
             {% endfor %}
-        </ul>
+        </div>
     {% endif %}
 </div>
